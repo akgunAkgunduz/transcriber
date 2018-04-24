@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <title>Transcriber</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body ondragstart="return false;" ondrop="return false;">
+  <!-- All of the Node.js APIs are available in this renderer process. -->
+  <div id="container">
+    <div id="file-div" class="row">
+      <span>Drop your file here!</span> 
+    </div>
+    <div id="controls" class="row">
+      <button id="play-pause" tabindex="-1" onkeydown="return false;">Play / Pause</button>
+    </div>
+    <!-- <div id="rate-div" class="row">
+      <span>Rate</span>
+      <select name="rate" id="rate">
+        <option value="1.0">1.00x</option>
+        <option value="0.9">0.90x</option>
+        <option value="0.8">0.80x</option>
+        <option value="0.7">0.70x</option>
+        <option value="0.6">0.60x</option>
+        <option value="0.5">0.50x</option>
+        <option value="0.4">0.40x</option>
+      </select>
+    </div> -->
+    <div id="progress-div" class="row">    
+      <input type="range" name="progress" id="progress" value="0" min="0" tabindex="-1" onkeydown="return false;">    
+    </div>
+    <div id="info" class="row">
+        <div>
+          Position: <span id="song-position">0</span>      
+        </div>
+        <div>
+          Length: <span id="song-length">0</span>
+        </div>
+        <div>
+          Rate: <span id="song-rate">1</span>
+        </div> 
+    </div>
+  </div>
+  
+
+  <script src="js/app.js"></script>
+  <script>
+    // You can also require other files to run in this process
+    require('./renderer.js')
+  </script>
+</body>
+
+</html>
