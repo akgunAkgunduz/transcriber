@@ -33,7 +33,11 @@ container.ondrop = e => {
 
   setTimeout(() => {
     songLength.textContent = audio.duration.toFixed(2);    
-    progress.max = audio.duration;}, 100) 
+    progress.max = audio.duration;
+    progress.value = 0}, 
+    100
+  )
+
 
   return false;
 };
@@ -56,19 +60,19 @@ progress.addEventListener("input", changeSongPosition);
 
 window.addEventListener("keyup", function(e) {
   if (e.keyCode == "40") {
-    audio.playbackRate = (audio.playbackRate - 0.1).toFixed(2);
+    audio.playbackRate = (audio.playbackRate - 0.05).toFixed(2);
     songRate.textContent = audio.playbackRate;
   }
   if (e.keyCode == "38") {
-    audio.playbackRate = (audio.playbackRate + 0.1).toFixed(2);
+    audio.playbackRate = (audio.playbackRate + 0.05).toFixed(2);
     songRate.textContent = audio.playbackRate;
   }
 
   if (e.keyCode == "37") {
-    audio.currentTime = audio.currentTime - 2;
+    audio.currentTime = audio.currentTime - 2.5;
   }
   if (e.keyCode == "39") {
-    audio.currentTime = audio.currentTime + 2;
+    audio.currentTime = audio.currentTime + 2.5;
   }
 
   if (e.keyCode == "32") {
