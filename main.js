@@ -6,21 +6,29 @@ const BrowserWindow = electron.BrowserWindow
 
 const path = require('path')
 const url = require('url')
+const windowStateKeeper = require('electron-window-state')
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
 
+
 function createWindow () {
+  let mainWindowState = windowStateKeeper()
+
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 600, 
     height: 320,
+    x: mainWindowState.x,
+    y: mainWindowState.y,
     resizable: false,
     maximizable: false
   })
 
-  mainWindow.openDevTools({ detach: true });
+  mainWindowState.manage(mainWindow)
+
+  mainWindow.openDevTools({ detach: true })
 
   // mainWindow.setMenu(null);
 

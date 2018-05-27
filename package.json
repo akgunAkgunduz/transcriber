@@ -16,5 +16,8 @@
   "license": "",
   "devDependencies": {
     "electron": "^1.8.4"
+  },
+  "dependencies": {
+    "electron-window-state": "^4.1.1"
   }
 }
