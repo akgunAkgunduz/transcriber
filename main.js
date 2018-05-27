@@ -22,6 +22,7 @@ function createWindow () {
     height: 320,
     x: mainWindowState.x,
     y: mainWindowState.y,
+    icon: 'img/transcriber.ico',
     resizable: false,
     maximizable: false
   })
