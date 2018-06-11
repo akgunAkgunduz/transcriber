@@ -19,7 +19,7 @@ function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 600, 
-    height: 320,
+    height: 282,
     x: mainWindowState.x,
     y: mainWindowState.y,
     icon: 'img/transcriber.ico',
@@ -31,7 +31,7 @@ function createWindow () {
 
   mainWindow.openDevTools({ detach: true })
 
-  // mainWindow.setMenu(null);
+  mainWindow.setMenu(null);
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({

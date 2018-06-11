@@ -8,17 +8,19 @@
 </head>
 
 <body ondragstart="return false;" ondrop="return false;">
-  <!-- All of the Node.js APIs are available in this renderer process. -->
   <div id="container">
     <div id="file-div" class="row">
-      <span>Drop your file here!</span> 
+      <span>Drop your file on the app</span> 
     </div>
+
     <div id="controls" class="row">
       <button id="play-pause" tabindex="-1" onkeydown="return false;">Play / Pause</button>
     </div>
+
     <div id="progress-div" class="row">    
       <input type="range" name="progress" id="progress" value="0" min="0" step="0.1" tabindex="-1" onkeydown="return false;">    
     </div>
+    
     <div id="info" class="row">
         <div>
           Position: <span id="song-position">0</span>      
