@@ -3,6 +3,7 @@ let audio = new Audio();
 
 const fileDiv = document.getElementById("file-div");
 const container = document.getElementById("container");
+const playPauseButton = document.getElementById("play-pause");
 
 container.ondragover = () => {
   return false;
@@ -34,10 +35,9 @@ container.ondrop = e => {
   setTimeout(() => {
     songLength.textContent = audio.duration.toFixed(2);    
     progress.max = audio.duration;
-    progress.value = 0}, 
-    100
-  )
-
+    progress.value = 0;
+    playPauseButton.click();
+  }, 100);
 
   return false;
 };
@@ -49,7 +49,7 @@ document.addEventListener('drop', event => event.preventDefault());
 //   e.preventDefault()
 // }
 
-const playPauseButton = document.getElementById("play-pause");
+
 const progress = document.getElementById("progress");
 const songLength = document.getElementById("song-length");
 const songPosition = document.getElementById("song-position");
