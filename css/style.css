@@ -102,18 +102,13 @@ input[type=range]::-webkit-slider-thumb:hover {
   text-align: left;
 }
 
-
-/* #info label, #info span {
-  display: inline-block;
-  width: 50%;
-}
-
-#info label {
-  text-align: right;
-  padding-right: .5rem;
-}
-
-#info span {
+#volume-div {
   text-align: left;
-} */
-
+}
+#volume {
+  position: relative;
+  top: -3px;
+}
+#volume::-webkit-slider-thumb {
+  width: 12px;
+}

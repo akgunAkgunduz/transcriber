@@ -36,6 +36,7 @@ container.ondrop = e => {
     songLength.textContent = audio.duration.toFixed(2);    
     progress.max = audio.duration;
     progress.value = 0;
+    volume.value = 1;
     playPauseButton.click();
   }, 100);
 
@@ -54,6 +55,11 @@ const progress = document.getElementById("progress");
 const songLength = document.getElementById("song-length");
 const songPosition = document.getElementById("song-position");
 const songRate = document.getElementById("song-rate");
+const volume = document.getElementById("volume");
+
+volume.addEventListener('input', function() {
+  audio.volume = volume.value;
+});
 
 playPauseButton.addEventListener("click", playPauseToggle);
 progress.addEventListener("input", changeSongPosition);
