@@ -37,6 +37,7 @@ container.ondrop = e => {
     progress.max = audio.duration;
     progress.value = 0;
     volume.value = 1;
+    playPauseButton.disabled = false;
     playPauseButton.click();
   }, 100);
 
@@ -100,8 +101,10 @@ function playPauseToggle() {
 
   if (audio.paused) {
     audio.play();
+    playPauseButton.querySelector('i').innerHTML = 'pause'
   } else {
     audio.pause();
+    playPauseButton.querySelector('i').innerHTML = 'play_arrow'
   }
 }
 
