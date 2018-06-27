@@ -20,6 +20,7 @@ function createWindow () {
   mainWindow = new BrowserWindow({
     width: 600, 
     height: 282,
+    backgroundColor: '#2B2B2B',
     x: mainWindowState.x,
     y: mainWindowState.y,
     icon: 'img/transcriber.ico',
