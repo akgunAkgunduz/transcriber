@@ -10,6 +10,8 @@
   padding: 0;
   box-sizing: border-box;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  -webkit-user-select:none;
+  cursor: default;
 }
 
 body {
@@ -29,15 +31,19 @@ input[type=range] {
 
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  width: 24px;
-  height: 12px;
-  border-radius: 4px;
-  background-color: var(--color4);
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: var(--color3);
   cursor: pointer;
   transition: .25s ease-in-out;
 }
 input[type=range]::-webkit-slider-thumb:hover {
-  background-color: var(--color3);
+  background-color: var(--color4);
+}
+
+i {
+  cursor: pointer;
 }
 
 .row {
@@ -60,7 +66,9 @@ input[type=range]::-webkit-slider-thumb:hover {
   max-width: 562px;
   left: 0;
   /* top: calc((80px - 23px) / 2); */
-  font-size: 1.1rem;
+  font-size: 16px;
+  line-height: 24px;
+  height: 24px;
   text-align: left;
   white-space: nowrap;
   overflow: hidden;
@@ -85,6 +93,7 @@ input[type=range]::-webkit-slider-thumb:hover {
   grid-column-gap: 4px;
 }
 .control {
+  cursor: pointer;
   /* width: 24px; */
   height: 36px;
   /* padding: 1rem 0; */
@@ -116,7 +125,4 @@ input[type=range]::-webkit-slider-thumb:hover {
 #volume {
   position: relative;
   top: -3px;
-}
-#volume::-webkit-slider-thumb {
-  width: 12px;
 }
