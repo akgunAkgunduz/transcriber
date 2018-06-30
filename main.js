@@ -25,7 +25,7 @@ function createWindow () {
     y: mainWindowState.y,
     icon: 'img/transcriber.ico',
     resizable: false,
-    maximizable: false
+    frame: false
   })
 
   mainWindowState.manage(mainWindow)
