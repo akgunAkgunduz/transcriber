@@ -53,6 +53,60 @@ i {
   text-align: center;
 }
 
+#app-bar {
+  position: relative;
+  -webkit-app-region: drag;
+  height: 40px;
+  background-color: var(--color2);
+}
+#app-bar img {
+  height: 24px;
+  margin-left: 1rem;
+  margin-top: 8px;
+}
+
+#app-name {
+  position: absolute;
+  top: 10px;
+  width: 200px;
+  left: 3.5rem;
+}
+
+.win-btn {
+  -webkit-app-region: no-drag;
+  position: absolute;
+  top: 8px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: var(--color3);
+  color: var(--color1);
+  text-align: center;
+  cursor: pointer;
+  transition: all .25s ease-in-out;
+}
+
+#close {
+  right: 1rem; 
+}
+#close:hover {
+  background-color: salmon;
+  color: white;
+}
+
+#minimize {  
+  right: 3.5rem;  
+}
+#minimize:hover {
+  background-color: var(--color1);
+  color: var(--color4);
+}
+
+.win-btn i {
+  font-size: 16px;
+  line-height: 24px;
+}
+
 #file-div {
   padding: 1rem 1rem;
   margin: 0.5rem 1rem 0 1rem;
