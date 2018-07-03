@@ -49,7 +49,6 @@ i {
 .row {
   margin-bottom: .25rem;
   padding: .5rem 1rem;
-  border-radius: 4px;
   text-align: center;
 }
 
@@ -69,7 +68,7 @@ i {
   position: absolute;
   top: 10px;
   width: 200px;
-  left: 3.5rem;
+  left: 48px;
 }
 
 .win-btn {
@@ -95,7 +94,7 @@ i {
 }
 
 #minimize {  
-  right: 3.5rem;  
+  right: 48px;  
 }
 #minimize:hover {
   background-color: var(--color1);
@@ -105,6 +104,7 @@ i {
 .win-btn i {
   font-size: 16px;
   line-height: 24px;
+  vertical-align: baseline;
 }
 
 #file-div {
@@ -118,8 +118,8 @@ i {
   display: block;
   position: relative;
   max-width: 562px;
-  left: 0;
   /* top: calc((80px - 23px) / 2); */
+  left: 0;
   font-size: 16px;
   line-height: 24px;
   height: 24px;
@@ -155,7 +155,6 @@ i {
   background-color: var(--color2);
   border: 0;
   outline: none;
-  border-radius: 4px;
   transition: .25s ease-in-out;
 }
 .control:hover {
