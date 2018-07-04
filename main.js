@@ -25,7 +25,13 @@ function createWindow () {
     y: mainWindowState.y,
     icon: 'img/transcriber.ico',
     resizable: false,
-    frame: false
+    frame: false,
+    show: false
+  })
+
+  // show when the app is ready
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.show()
   })
 
   mainWindowState.manage(mainWindow)
