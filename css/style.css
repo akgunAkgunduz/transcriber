@@ -3,6 +3,8 @@
   --color2: #32373B;
   --color3: #72B7B3;
   --color4: #9ADAD9;
+
+  --row-gap: 8px;
 }
 
 * {
@@ -55,28 +57,28 @@ i {
 #app-bar {
   position: relative;
   -webkit-app-region: drag;
-  height: 40px;
+  height: 36px;
   background-color: var(--color2);
 }
 #app-bar img {
-  height: 24px;
+  height: 16px;
   margin-left: 1rem;
-  margin-top: 8px;
+  margin-top: 10px;
 }
 
 #app-name {
   position: absolute;
-  top: 10px;
+  top: 6px;
   width: 200px;
-  left: 48px;
+  left: 40px;
 }
 
 .win-btn {
   -webkit-app-region: no-drag;
   position: absolute;
-  top: 8px;
-  width: 24px;
-  height: 24px;
+  top: 10px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   background-color: var(--color3);
   color: var(--color1);
@@ -94,7 +96,7 @@ i {
 }
 
 #minimize {  
-  right: 48px;  
+  right: 40px;  
 }
 #minimize:hover {
   background-color: var(--color1);
@@ -102,13 +104,16 @@ i {
 }
 
 .win-btn i {
-  font-size: 16px;
-  line-height: 24px;
-  vertical-align: baseline;
+  display: block;
+  width: 16px;
+  height: 16px;
+  font-size: 10px;
+  line-height: 18px;
+  /* vertical-align: baseline; */
 }
 
 #file-div {
-  padding: 1rem 1rem;
+  padding: 6px 1rem;
   margin: 0.5rem 1rem 0 1rem;
   background-color: var(--color3);
   color: var(--color1);
@@ -130,14 +135,14 @@ i {
 
 #progress-div {
   position: relative;
-  padding: 0 1rem;
+  /* padding: 0 1rem; */
   height: 12px;
-  margin-top: 1rem;
+  margin-top: var(--row-gap);
 }
 #progress {
   position: absolute;
   /* width: 100%; */
-  width: 562px;
+  width: 568px;
   left: 1rem;
   top: 6px;
 }
