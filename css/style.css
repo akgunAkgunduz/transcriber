@@ -71,6 +71,7 @@ i {
   top: 3px;
   width: 200px;
   left: 40px;
+  transition: all .25s ease-in-out;
 }
 
 .win-btn {
@@ -89,17 +90,9 @@ i {
 #close {
   right: 16px; 
 }
-#close:hover {
-  background-color: salmon;
-  color: white;
-}
 
 #minimize {  
   right: 58px;  
-}
-#minimize:hover {
-  background-color: var(--color1);
-  color: var(--color4);
 }
 
 .win-btn i {
@@ -108,7 +101,6 @@ i {
   height: 26px;
   font-size: 16px;
   line-height: 26px;
-  /* vertical-align: baseline; */
 }
 
 #file-div {

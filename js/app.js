@@ -19,6 +19,7 @@ container.ondragend = () => {
 
 container.ondrop = e => {
   e.preventDefault();
+  win.focus()
   
   if(!audio.paused) {
     audio.pause()

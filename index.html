@@ -2,15 +2,16 @@
 <html>
 
 <head>
-  <meta charset="UTF-8">
-  
+  <meta charset="UTF-8">  
   <link rel="stylesheet" href="css/material-icons.css">
   <link rel="stylesheet" href="css/style.css">
   <title>Transcriber</title>
 </head>
 
 <body ondragstart="return false;" ondrop="return false;">
+
   <div id="container">
+
     <div id="app-bar">
       <span>
         <img src="img/transcriber.ico">
@@ -19,6 +20,7 @@
       <div id="minimize" class="win-btn"><i class="material-icons">remove</i></div>
       <div id="close" class="win-btn"><i class="material-icons">clear</i></div>
     </div>
+
     <div id="file-div" class="row">
       <span>Drop your file on the app</span> 
     </div>
@@ -47,10 +49,12 @@
           Rate: <span id="song-rate">1</span>
         </div> 
     </div>
+
     <div id="volume-div" class="row">
       <span>Volume</span>    
       <input type="range" id="volume" value="1" min="0" max="1" step="0.01" tabindex="-1" onkeydown="return false;">    
     </div>
+
   </div>
   
   <script src="js/appBar.js"></script>

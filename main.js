@@ -32,6 +32,7 @@ function createWindow () {
   // show when the app is ready
   mainWindow.once('ready-to-show', () => {
     mainWindow.show()
+    mainWindow.focus()
   })
 
   mainWindowState.manage(mainWindow)
