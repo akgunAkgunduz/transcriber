@@ -57,18 +57,18 @@ i {
 #app-bar {
   position: relative;
   -webkit-app-region: drag;
-  height: 36px;
+  height: 30px;
   background-color: var(--color2);
 }
 #app-bar img {
   height: 16px;
   margin-left: 1rem;
-  margin-top: 10px;
+  margin-top: 7px;
 }
 
 #app-name {
   position: absolute;
-  top: 6px;
+  top: 3px;
   width: 200px;
   left: 40px;
 }
@@ -76,10 +76,9 @@ i {
 .win-btn {
   -webkit-app-region: no-drag;
   position: absolute;
-  top: 10px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
+  top: 0;
+  width: 40px;
+  height: 26px;
   background-color: var(--color3);
   color: var(--color1);
   text-align: center;
@@ -88,7 +87,7 @@ i {
 }
 
 #close {
-  right: 1rem; 
+  right: 16px; 
 }
 #close:hover {
   background-color: salmon;
@@ -96,7 +95,7 @@ i {
 }
 
 #minimize {  
-  right: 40px;  
+  right: 58px;  
 }
 #minimize:hover {
   background-color: var(--color1);
@@ -105,10 +104,10 @@ i {
 
 .win-btn i {
   display: block;
-  width: 16px;
-  height: 16px;
-  font-size: 10px;
-  line-height: 18px;
+  width: 40px;
+  height: 26px;
+  font-size: 16px;
+  line-height: 26px;
   /* vertical-align: baseline; */
 }
 
