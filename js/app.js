@@ -10,8 +10,10 @@ const playPauseButton = document.getElementById('play-pause')
 const progress = document.getElementById('progress')
 const songLength = document.getElementById('song-length')
 const songPosition = document.getElementById('song-position')
+const songVolume = document.getElementById('song-volume')
 const songRate = document.getElementById('song-rate')
 const volume = document.getElementById('volume')
+const speed = document.getElementById('speed')
 
 audio.addEventListener('timeupdate', () => {
   progress.value = audio.currentTime
@@ -22,9 +24,20 @@ audio.addEventListener('loadedmetadata', () => {
   songLength.textContent = audio.duration.toFixed(2)
   progress.max = audio.duration
   progress.value = 0
+  audio.volume = 1
   volume.value = 1
   playPauseButton.disabled = false
   playPauseButton.click()  
+})
+
+audio.addEventListener('volumechange', () => {
+  volume.value = audio.volume
+  songVolume.textContent = Math.floor(audio.volume * 100)
+})
+
+audio.addEventListener('ratechange', () => {
+  speed.value = audio.playbackRate
+  songRate.textContent = audio.playbackRate
 })
 
 app.addEventListener('dragover', () => {
@@ -68,6 +81,10 @@ volume.addEventListener('input', () => {
   audio.volume = volume.value
 })
 
+speed.addEventListener('input', () => {
+  audio.playbackRate = speed.value
+})
+
 playPauseButton.addEventListener('click', () => {
   if (audio.paused) {
     audio.play()
@@ -82,19 +99,35 @@ progress.addEventListener('input', () => {
   audio.currentTime = progress.value
 })
 
-window.addEventListener('keyup', (e) => {
+window.addEventListener('keydown', (e) => {
   if (e.keyCode == '40') {
-    audio.playbackRate = (audio.playbackRate - 0.05).toFixed(2)
-    songRate.textContent = audio.playbackRate
+    if (audio.playbackRate > 0.5) {
+      audio.playbackRate = (audio.playbackRate - 0.05).toFixed(2)
+    }
   }
+
   if (e.keyCode == '38') {
-    audio.playbackRate = (audio.playbackRate + 0.05).toFixed(2)
-    songRate.textContent = audio.playbackRate
+    if (audio.playbackRate < 1.5) {
+      audio.playbackRate = (audio.playbackRate + 0.05).toFixed(2)
+    }
+  }
+
+  if (e.keyCode == '33') {
+    if (audio.volume < 1) {
+      audio.volume = (audio.volume + 0.01).toFixed(2)
+    }
+  }
+
+  if (e.keyCode == '34') {
+    if (audio.volume > 0) {
+      audio.volume = (audio.volume - 0.01).toFixed(2)
+    }
   }
 
   if (e.keyCode == '37') {
     audio.currentTime = audio.currentTime - 2.5
   }
+
   if (e.keyCode == '39') {
     audio.currentTime = audio.currentTime + 2.5
   }
