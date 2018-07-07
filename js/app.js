@@ -1,114 +1,105 @@
-let filePath = "";
-let audio = new Audio();
+const transcriber = {
+  currentDir: '',
+  currentFilePath: '',
+}
 
-const fileDiv = document.getElementById("file-div");
-const container = document.getElementById("container");
-const playPauseButton = document.getElementById("play-pause");
+const container = document.getElementById('container')
+const audio = document.getElementById('audio')
+const fileDiv = document.getElementById('file-div')
+const playPauseButton = document.getElementById('play-pause')
+const progress = document.getElementById('progress')
+const songLength = document.getElementById('song-length')
+const songPosition = document.getElementById('song-position')
+const songRate = document.getElementById('song-rate')
+const volume = document.getElementById('volume')
 
-container.ondragover = () => {
-  return false;
-};
+audio.addEventListener('timeupdate', () => {
+  progress.value = audio.currentTime
+  songPosition.textContent = (audio.currentTime).toFixed(2)
+})
 
-container.ondragleave = () => {
-  return false;
-};
+audio.addEventListener('loadedmetadata', () => {
+  songLength.textContent = audio.duration.toFixed(2)
+  progress.max = audio.duration
+  progress.value = 0
+  volume.value = 1
+  playPauseButton.disabled = false
+  playPauseButton.click()  
+})
 
-container.ondragend = () => {
-  return false;
-};
+container.addEventListener('dragover', () => {
+  return false
+})
 
-container.ondrop = e => {
-  e.preventDefault();
+container.addEventListener('dragleave', () => {
+  return false
+})
+
+container.addEventListener('dragend', () => {
+  return false
+})
+
+container.addEventListener('drop', (e) => {
+  e.preventDefault()
   win.focus()
-  
+
   if(!audio.paused) {
     audio.pause()
   }
 
-  filePath = e.dataTransfer.files[0].path;
-  
-  audio = new Audio(filePath)
+  transcriber.currentFilePath = e.dataTransfer.files[0].path
+  audio.src = transcriber.currentFilePath
   audio.loop = true
   songRate.textContent = 1
+  fileDiv.querySelector('span').textContent = e.dataTransfer.files[0].name
 
-  fileDiv.querySelector("span").textContent = e.dataTransfer.files[0].name;
+  return false
+})
 
-  setTimeout(() => {
-    songLength.textContent = audio.duration.toFixed(2);    
-    progress.max = audio.duration;
-    progress.value = 0;
-    volume.value = 1;
-    playPauseButton.disabled = false;
-    playPauseButton.click();
-  }, 100);
+document.addEventListener('dragover', (e) => {
+  e.preventDefault()
+})
 
-  return false;
-};
+document.addEventListener('drop', (e) => {
+  e.preventDefault()
+})
 
-document.addEventListener('dragover', event => event.preventDefault());
-document.addEventListener('drop', event => event.preventDefault());
+volume.addEventListener('input', () => {
+  audio.volume = volume.value
+})
 
-// document.getElementsByTagName('body').ondrop = e => {
-//   e.preventDefault()
-// }
-
-
-const progress = document.getElementById("progress");
-const songLength = document.getElementById("song-length");
-const songPosition = document.getElementById("song-position");
-const songRate = document.getElementById("song-rate");
-const volume = document.getElementById("volume");
-
-volume.addEventListener('input', function() {
-  audio.volume = volume.value;
-});
-
-playPauseButton.addEventListener("click", playPauseToggle);
-progress.addEventListener("input", changeSongPosition);
-
-window.addEventListener("keyup", function(e) {
-  if (e.keyCode == "40") {
-    audio.playbackRate = (audio.playbackRate - 0.05).toFixed(2);
-    songRate.textContent = audio.playbackRate;
-  }
-  if (e.keyCode == "38") {
-    audio.playbackRate = (audio.playbackRate + 0.05).toFixed(2);
-    songRate.textContent = audio.playbackRate;
-  }
-
-  if (e.keyCode == "37") {
-    audio.currentTime = audio.currentTime - 2.5;
-  }
-  if (e.keyCode == "39") {
-    audio.currentTime = audio.currentTime + 2.5;
-  }
-
-  if (e.keyCode == "32") {
-    playPauseButton.click()
-  }
-});
-
-function initializeAudioEventListener() {
-  audio.addEventListener("timeupdate", function() {
-    // console.log(audio.currentTime);
-    progress.value = audio.currentTime;
-    songPosition.textContent = (audio.currentTime).toFixed(2);
-  });
-}
-
-function playPauseToggle() {
-  initializeAudioEventListener();
-  
-
+playPauseButton.addEventListener('click', () => {
   if (audio.paused) {
-    audio.play();
+    audio.play()
     playPauseButton.querySelector('i').innerHTML = 'pause'
   } else {
-    audio.pause();
+    audio.pause()
     playPauseButton.querySelector('i').innerHTML = 'play_arrow'
   }
-}
+})
 
-function changeSongPosition() {
-  audio.currentTime = progress.value;
-}
+progress.addEventListener('input', () => {
+  audio.currentTime = progress.value
+})
+
+window.addEventListener('keyup', (e) => {
+  if (e.keyCode == '40') {
+    audio.playbackRate = (audio.playbackRate - 0.05).toFixed(2)
+    songRate.textContent = audio.playbackRate
+  }
+  if (e.keyCode == '38') {
+    audio.playbackRate = (audio.playbackRate + 0.05).toFixed(2)
+    songRate.textContent = audio.playbackRate
+  }
+
+  if (e.keyCode == '37') {
+    audio.currentTime = audio.currentTime - 2.5
+  }
+  if (e.keyCode == '39') {
+    audio.currentTime = audio.currentTime + 2.5
+  }
+
+  if (e.keyCode == '32') {
+    playPauseButton.click()
+  }
+})
