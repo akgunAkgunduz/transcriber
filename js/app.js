@@ -3,7 +3,7 @@ const transcriber = {
   currentFilePath: '',
 }
 
-const container = document.getElementById('container')
+const app = document.getElementById('app')
 const audio = document.getElementById('audio')
 const fileDiv = document.getElementById('file-div')
 const playPauseButton = document.getElementById('play-pause')
@@ -27,19 +27,19 @@ audio.addEventListener('loadedmetadata', () => {
   playPauseButton.click()  
 })
 
-container.addEventListener('dragover', () => {
+app.addEventListener('dragover', () => {
   return false
 })
 
-container.addEventListener('dragleave', () => {
+app.addEventListener('dragleave', () => {
   return false
 })
 
-container.addEventListener('dragend', () => {
+app.addEventListener('dragend', () => {
   return false
 })
 
-container.addEventListener('drop', (e) => {
+app.addEventListener('drop', (e) => {
   e.preventDefault()
   win.focus()
 

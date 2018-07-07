@@ -19,7 +19,7 @@ function createWindow () {
   // Create the browser window.
   mainWindow = new BrowserWindow({
     width: 600, 
-    height: 282,
+    height: 240,
     backgroundColor: '#2B2B2B',
     x: mainWindowState.x,
     y: mainWindowState.y,
@@ -39,7 +39,7 @@ function createWindow () {
 
   mainWindow.openDevTools({ detach: true })
 
-  mainWindow.setMenu(null);
+  mainWindow.setMenu(null)
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
