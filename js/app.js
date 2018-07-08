@@ -32,12 +32,12 @@ audio.addEventListener('loadedmetadata', () => {
 
 audio.addEventListener('volumechange', () => {
   volume.value = audio.volume
-  songVolume.textContent = Math.floor(audio.volume * 100)
+  songVolume.textContent = Math.floor(audio.volume * 100) + '%'
 })
 
 audio.addEventListener('ratechange', () => {
   speed.value = audio.playbackRate
-  songRate.textContent = audio.playbackRate
+  songRate.textContent = audio.playbackRate.toFixed(2) + 'x'
 })
 
 app.addEventListener('dragover', () => {

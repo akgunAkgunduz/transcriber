@@ -25,7 +25,7 @@ body {
 input[type=range] {
   -webkit-appearance: none;
   height: 2px;
-  width: 180px;
+  width: 164px;
   line-height: 16px;
   background: var(--color4);
   outline: none;
@@ -167,7 +167,12 @@ i {
 #sliders{
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-column-gap: 24px;
+  grid-column-gap: 12px;
+}
+
+#sliders .label {
+  display: inline-block;
+  width: 60px;
 }
 
 #volume-div {
@@ -176,4 +181,10 @@ i {
 #volume, #speed {
   position: relative;
   top: -3px;
+}
+
+#song-volume, #song-rate {
+  display: inline-block;
+  width: 40px;
+  text-align: right;
 }
