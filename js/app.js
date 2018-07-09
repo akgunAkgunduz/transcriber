@@ -6,7 +6,11 @@ const transcriber = {
 const app = document.getElementById('app')
 const audio = document.getElementById('audio')
 const fileDiv = document.getElementById('file-div')
-const playPauseButton = document.getElementById('play-pause')
+const toStart = document.getElementById('to-start')
+const rewind = document.getElementById('rewind')
+const playPause = document.getElementById('play-pause')
+const forward = document.getElementById('forward')
+const repeat = document.getElementById('repeat')
 const progress = document.getElementById('progress')
 const songLength = document.getElementById('song-length')
 const songPosition = document.getElementById('song-position')
@@ -24,10 +28,18 @@ audio.addEventListener('loadedmetadata', () => {
   songLength.textContent = audio.duration.toFixed(2)
   progress.max = audio.duration
   progress.value = 0
-  audio.volume = 1
-  volume.value = 1
-  playPauseButton.disabled = false
-  playPauseButton.click()  
+  audio.volume = 0.5
+  volume.value = 0.5
+
+  progress.disabled = false
+  toStart.disabled = false
+  rewind.disabled = false
+  playPause.disabled = false
+  forward.disabled = false
+  volume.disabled = false
+  speed.disabled = false
+
+  playPause.click()  
 })
 
 audio.addEventListener('volumechange', () => {
@@ -63,7 +75,6 @@ app.addEventListener('drop', (e) => {
   transcriber.currentFilePath = e.dataTransfer.files[0].path
   audio.src = transcriber.currentFilePath
   audio.loop = true
-  songRate.textContent = 1
   fileDiv.querySelector('span').textContent = e.dataTransfer.files[0].name
 
   return false
@@ -85,14 +96,26 @@ speed.addEventListener('input', () => {
   audio.playbackRate = speed.value
 })
 
-playPauseButton.addEventListener('click', () => {
+toStart.addEventListener('click', () => {
+  audio.currentTime = 0
+})
+
+rewind.addEventListener('click', () => {
+  audio.currentTime = audio.currentTime - 2.5
+})
+
+playPause.addEventListener('click', () => {
   if (audio.paused) {
     audio.play()
-    playPauseButton.querySelector('i').innerHTML = 'pause'
+    playPause.querySelector('i').innerHTML = 'pause'
   } else {
     audio.pause()
-    playPauseButton.querySelector('i').innerHTML = 'play_arrow'
+    playPause.querySelector('i').innerHTML = 'play_arrow'
   }
+})
+
+forward.addEventListener('click', () => {
+  audio.currentTime = audio.currentTime + 2.5
 })
 
 progress.addEventListener('input', () => {
@@ -100,39 +123,45 @@ progress.addEventListener('input', () => {
 })
 
 window.addEventListener('keydown', (e) => {
-  if (e.keyCode == '40') {
-    if (audio.playbackRate > 0.5) {
-      audio.playbackRate = (audio.playbackRate - 0.05).toFixed(2)
+  if (transcriber.currentFilePath) {
+    if (e.keyCode == '40') {
+      if (audio.playbackRate > 0.5) {
+        audio.playbackRate = (audio.playbackRate - 0.05).toFixed(2)
+      }
     }
-  }
-
-  if (e.keyCode == '38') {
-    if (audio.playbackRate < 1.5) {
-      audio.playbackRate = (audio.playbackRate + 0.05).toFixed(2)
+  
+    if (e.keyCode == '38') {
+      if (audio.playbackRate < 1.5) {
+        audio.playbackRate = (audio.playbackRate + 0.05).toFixed(2)
+      }
     }
-  }
-
-  if (e.keyCode == '33') {
-    if (audio.volume < 1) {
-      audio.volume = (audio.volume + 0.01).toFixed(2)
+  
+    if (e.keyCode == '33') {
+      if (audio.volume < 1) {
+        audio.volume = (audio.volume + 0.01).toFixed(2)
+      }
     }
-  }
-
-  if (e.keyCode == '34') {
-    if (audio.volume > 0) {
-      audio.volume = (audio.volume - 0.01).toFixed(2)
+  
+    if (e.keyCode == '34') {
+      if (audio.volume > 0) {
+        audio.volume = (audio.volume - 0.01).toFixed(2)
+      }
     }
-  }
-
-  if (e.keyCode == '37') {
-    audio.currentTime = audio.currentTime - 2.5
-  }
-
-  if (e.keyCode == '39') {
-    audio.currentTime = audio.currentTime + 2.5
-  }
-
-  if (e.keyCode == '32') {
-    playPauseButton.click()
+  
+    if (e.keyCode == '36') {
+      audio.currentTime = 0
+    }
+  
+    if (e.keyCode == '37') {
+      audio.currentTime = audio.currentTime - 2.5
+    }
+  
+    if (e.keyCode == '39') {
+      audio.currentTime = audio.currentTime + 2.5
+    }
+  
+    if (e.keyCode == '32') {
+      playPause.click()
+    }
   }
 })
