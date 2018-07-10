@@ -4,7 +4,8 @@
   "description": "A minimal music transcribing application",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "package-win": "electron-packager . --asar --icon=img/transcriber.ico"
   },
   "repository": "",
   "keywords": [
