@@ -28,8 +28,11 @@ audio.addEventListener('loadedmetadata', () => {
   songLength.textContent = audio.duration.toFixed(2)
   progress.max = audio.duration
   progress.value = 0
-  audio.volume = 0.5
-  volume.value = 0.5
+  if (localStorage.getItem(transcriber.currentFilePath)) {
+    audio.volume = localStorage.getItem(transcriber.currentFilePath)
+  } else {
+    audio.volume = 0.5
+  }
 
   progress.disabled = false
   toStart.disabled = false
@@ -44,6 +47,7 @@ audio.addEventListener('loadedmetadata', () => {
 
 audio.addEventListener('volumechange', () => {
   volume.value = audio.volume
+  localStorage.setItem(transcriber.currentFilePath, audio.volume)
   songVolume.textContent = Math.floor(audio.volume * 100) + '%'
 })
 
