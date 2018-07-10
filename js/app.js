@@ -1,6 +1,6 @@
 const transcriber = {
-  currentDir: '',
   currentFilePath: '',
+  repeat: localStorage.getItem('repeat') || 'false'
 }
 
 const app = document.getElementById('app')
@@ -45,6 +45,13 @@ audio.addEventListener('loadedmetadata', () => {
   playPause.click()  
 })
 
+audio.addEventListener('ended', () => {
+  if (transcriber.repeat == 'false') {
+    audio.currentTime = 0
+    playPause.querySelector('i').innerHTML = 'play_arrow'
+  }
+})
+
 audio.addEventListener('volumechange', () => {
   volume.value = audio.volume
   localStorage.setItem(transcriber.currentFilePath, audio.volume)
@@ -78,7 +85,6 @@ app.addEventListener('drop', (e) => {
 
   transcriber.currentFilePath = e.dataTransfer.files[0].path
   audio.src = transcriber.currentFilePath
-  audio.loop = true
   fileDiv.querySelector('span').textContent = e.dataTransfer.files[0].name
 
   return false
@@ -120,6 +126,13 @@ playPause.addEventListener('click', () => {
 
 forward.addEventListener('click', () => {
   audio.currentTime = audio.currentTime + 2.5
+})
+
+repeat.addEventListener('click', () => {
+  audio.loop = !JSON.parse(transcriber.repeat)
+  transcriber.repeat = JSON.stringify(audio.loop)
+  localStorage.repeat = audio.loop
+  repeat.classList.toggle('on')
 })
 
 progress.addEventListener('input', () => {
@@ -167,5 +180,12 @@ window.addEventListener('keydown', (e) => {
     if (e.keyCode == '32') {
       playPause.click()
     }
+  }
+})
+
+document.addEventListener('DOMContentLoaded', () => {
+  if(localStorage.getItem('repeat') == 'true') {
+    audio.loop = true
+    repeat.classList.add('on')
   }
 })

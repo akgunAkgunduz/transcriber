@@ -164,6 +164,13 @@ i {
   color: var(--color2);
 }
 
+#repeat.on {
+  color: yellowgreen;
+  /* color: #e6ac00; */
+  /* text-shadow: 0 0 2px black, 0 0 8px #fdfd96; */
+  text-shadow: 0 0 1px black, 0 0 8px yellowgreen;
+}
+
 #sliders{
   display: grid;
   grid-template-columns: 1fr 1fr;
