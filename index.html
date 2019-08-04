@@ -3,18 +3,16 @@
 
 <head>
   <meta charset="UTF-8">  
-  <link rel="stylesheet" href="css/icons.css">
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="stylesheets/icons.css">
+  <link rel="stylesheet" href="stylesheets/style.css">
   <title>Transcriber</title>
 </head>
 
 <body ondragstart="return false;" ondrop="return false;">
-
   <div id="app">
-
     <div id="app-bar">
       <span>
-        <img src="img/transcriber.ico">
+        <img src="images/transcriber.ico">
       </span>
       <div id="app-name">Transcriber</div>
       <div id="minimize" class="win-btn"><i class="material-icons">remove</i></div>
@@ -56,14 +54,12 @@
           <input type="range" id="speed" value="1" min="0.5" max="1.5" step="0.05" tabindex="-1" onkeydown="return false;" disabled>
           <span id="song-rate">1.00x</span>
         </div>
-      </div>  
-
-    </div>   
-
+      </div>
+    </div>
   </div>
   
-  <script src="js/appBar.js"></script>
-  <script src="js/app.js"></script>
+  <script src="scripts/appBar.js"></script>
+  <script src="scripts/app.js"></script>
 </body>
 
 </html>
