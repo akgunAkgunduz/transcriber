@@ -1,18 +1,19 @@
 {
   "name": "transcriber",
   "version": "1.0.0",
-  "description": "A music transcriber made with Electron framework",
+  "description": "A music transcriber for Windows",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "package-win": "electron-packager . --asar --icon=images/transcriber.ico --prune"
+    "package-win": "electron-packager . transcriber --overwrite --asar --platform=win32 --arch=ia32 --icon=images/transcriber.ico --prune --out=build"
   },
   "author": "Akgün Akgündüz",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^1.8.4"
+    "electron": "^6.0.0",
+    "electron-packager": "^14.0.4"
   },
   "dependencies": {
-    "electron-window-state": "^4.1.1"
+    "electron-window-state": "^5.0.3"
   }
 }
