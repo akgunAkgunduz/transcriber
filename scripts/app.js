@@ -13,6 +13,7 @@ const forward = document.getElementById('forward')
 const repeat = document.getElementById('repeat')
 const progressDiv = document.getElementById('progress-div')
 const progress = document.getElementById('progress')
+const fakeProgress = document.getElementById('fake-progress')
 const progressInfo = document.getElementById('progress-info')
 const songLength = document.getElementById('song-length')
 const songPosition = document.getElementById('song-position')
@@ -139,6 +140,31 @@ repeat.addEventListener('click', () => {
 
 progress.addEventListener('input', () => {
   audio.currentTime = progress.value
+})
+
+progress.addEventListener('mousemove', (e) => {
+  const progressWidth = fakeProgress.offsetWidth
+  const cursorPositionRelative = e.clientX - e.target.parentNode.offsetLeft - 8
+  const cursorPositionTime = audio.duration * (cursorPositionRelative / progressWidth)
+  const infoWidth = progressInfo.offsetWidth  
+
+  if (cursorPositionRelative < 0) {
+    progressInfo.innerText = generateDurationText(0)  
+  } else if (cursorPositionRelative > progressWidth) {
+    progressInfo.innerText = generateDurationText(audio.duration)
+  } else {
+    progressInfo.innerText = generateDurationText(cursorPositionTime)
+  }
+
+  if (e.clientX < e.target.parentNode.offsetLeft ) {
+    progressInfo.style.left = `${-(infoWidth / 2) + 8}px`
+  } else if (e.clientX > progressWidth + 8 + e.target.parentNode.offsetLeft ) {
+    progressInfo.style.left = `${progressWidth + 8 - (infoWidth / 2)}px`
+  } else {
+    progressInfo.style.left = `${cursorPositionRelative - infoWidth / 2 + 8}px`
+  }
+
+  progressInfo.style.top = `${e.target.offsetTop - 24}px`
 })
 
 window.addEventListener('keydown', (e) => {

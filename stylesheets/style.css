@@ -155,15 +155,36 @@ i {
   grid-row-end: 2;
   grid-column-start: 1;
   grid-column-end: 2;
+  height: 20px;
+  z-index: 2;
+  background:transparent;
 }
 
-#progress:hover ~ #progress-info {
+#progress::-webkit-slider-thumb {
+  z-index: 3;
+}
+
+#progress:enabled:hover ~ #progress-info {
   visibility: visible;
   opacity: 1;  
 }
 
+#fake-progress {
+  width: calc(100% * 16px);
+  height: 2px;
+  background: var(--color4);
+  margin-left: 8px;
+  margin-right: 8px;
+  z-index: 1;
+  align-self: center;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  grid-column-start: 1;
+  grid-column-end: 2;
+  cursor: pointer;
+}
+
 #progress-info {
-  display: none;
   position: absolute;
   visibility: hidden;
   opacity: 0;
@@ -172,8 +193,10 @@ i {
   font-size: 12px;
   padding: 0 8px;
   text-align: center;
-  background-color: #333;
-  color: #fff;
+  background: var(--color3);
+  box-shadow: 0 0 1px 1px rgba(0, 0, 0, 0.1);
+  color: var(--color2);
+  font-weight: bold;
   transition: opacity ease-out 0.25s;
 }
 
