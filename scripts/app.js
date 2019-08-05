@@ -11,7 +11,9 @@ const rewind = document.getElementById('rewind')
 const playPause = document.getElementById('play-pause')
 const forward = document.getElementById('forward')
 const repeat = document.getElementById('repeat')
+const progressDiv = document.getElementById('progress-div')
 const progress = document.getElementById('progress')
+const progressInfo = document.getElementById('progress-info')
 const songLength = document.getElementById('song-length')
 const songPosition = document.getElementById('song-position')
 const songVolume = document.getElementById('song-volume')
@@ -19,13 +21,8 @@ const songRate = document.getElementById('song-rate')
 const volume = document.getElementById('volume')
 const speed = document.getElementById('speed')
 
-audio.addEventListener('timeupdate', () => {
-  progress.value = audio.currentTime
-  songPosition.textContent = (audio.currentTime).toFixed(2)
-})
-
 audio.addEventListener('loadedmetadata', () => {
-  songLength.textContent = audio.duration.toFixed(2)
+  songLength.textContent = generateDurationText(audio.duration)
   progress.max = audio.duration
   progress.value = 0
   if (localStorage.getItem(transcriber.currentFilePath)) {
@@ -43,6 +40,11 @@ audio.addEventListener('loadedmetadata', () => {
   speed.disabled = false
 
   playPause.click()  
+})
+
+audio.addEventListener('timeupdate', () => {
+  progress.value = audio.currentTime
+  songPosition.textContent = generatePositionText(audio.currentTime, audio.duration)
 })
 
 audio.addEventListener('ended', () => {

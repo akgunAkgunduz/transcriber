@@ -127,22 +127,54 @@ i {
 
 #progress-and-position {
   display: grid;
-  grid-template-columns: 418px 142px;
+  grid-template-columns: 60px 1fr 60px;
   grid-column-gap: 8px;
+  height: 20px;
+}
+
+#song-position,
+#song-length {
+  height: 20px;
+  line-height: 20px;
+}
+
+#song-length {
+  text-align: right;
 }
 
 #progress-div {
+  display: grid;
   position: relative;
   height: 20px;
 }
+
 #progress {
-  position: absolute;
-  width: 418px;
-  top: 11px;
+  width: 100%;
+  align-self: center;
+  grid-row-start: 1;
+  grid-row-end: 2;
+  grid-column-start: 1;
+  grid-column-end: 2;
 }
 
-#info {
-  text-align: right;
+#progress:hover ~ #progress-info {
+  visibility: visible;
+  opacity: 1;  
+}
+
+#progress-info {
+  display: none;
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+  height: 20px;
+  line-height: 20px;
+  font-size: 12px;
+  padding: 0 8px;
+  text-align: center;
+  background-color: #333;
+  color: #fff;
+  transition: opacity ease-out 0.25s;
 }
 
 #controls {

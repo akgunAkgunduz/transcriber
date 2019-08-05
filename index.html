@@ -27,12 +27,14 @@
       </div>
   
       <div id="progress-and-position" class="row">
+        <div id="song-position"></div>
+
         <div id="progress-div">    
-          <input type="range" name="progress" id="progress" value="0" min="0" step="0.1" tabindex="-1" onkeydown="return false;" disabled>    
+          <input type="range" name="progress" id="progress" value="0" min="0" step="0.1" tabindex="-1" onkeydown="return false;" disabled>
+          <div id="progress-info"></div>    
         </div>
-        <div id="info">
-          <span id="song-position">00:00:00</span> / <span id="song-length">00:00:00</span>
-        </div>
+
+        <div id="song-length"></div>
       </div>   
   
       <div id="controls" class="row">
