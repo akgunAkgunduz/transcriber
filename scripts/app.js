@@ -87,7 +87,7 @@ app.addEventListener('drop', (e) => {
   }
 
   transcriber.currentFilePath = e.dataTransfer.files[0].path
-  audio.src = transcriber.currentFilePath
+  audio.src = sanitizeFilePath(transcriber.currentFilePath)
   fileDiv.querySelector('span').textContent = e.dataTransfer.files[0].name
 
   return false
