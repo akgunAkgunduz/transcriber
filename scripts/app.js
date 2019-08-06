@@ -11,6 +11,7 @@ const rewind = document.getElementById('rewind')
 const playPause = document.getElementById('play-pause')
 const forward = document.getElementById('forward')
 const repeat = document.getElementById('repeat')
+const progressAndPosition = document.getElementById('progress-and-position')
 const progressDiv = document.getElementById('progress-div')
 const progress = document.getElementById('progress')
 const fakeProgress = document.getElementById('fake-progress')
@@ -23,7 +24,6 @@ const volume = document.getElementById('volume')
 const speed = document.getElementById('speed')
 
 audio.addEventListener('loadedmetadata', () => {
-  songLength.textContent = generateDurationText(audio.duration)
   progress.max = audio.duration
   progress.value = 0
   if (localStorage.getItem(transcriber.currentFilePath)) {
@@ -31,6 +31,16 @@ audio.addEventListener('loadedmetadata', () => {
   } else {
     audio.volume = 0.5
   }
+
+  if (audio.duration < 3600) {
+    progressAndPosition.style.gridTemplateColumns = '40px 1fr 40px'
+  } else {
+    progressAndPosition.style.gridTemplateColumns = '60px 1fr 60px'
+  }
+  progressAndPosition.style.gridColumnGap = '4px'
+
+  songLength.textContent = generateDurationText(audio.duration)
+  songPosition.textContent = generatePositionText(0, 0)
 
   progress.disabled = false
   toStart.disabled = false
@@ -143,15 +153,16 @@ progress.addEventListener('input', () => {
 })
 
 progress.addEventListener('mousemove', (e) => {
+  const duration = audio.duration || 0
   const progressWidth = fakeProgress.offsetWidth
   const cursorPositionRelative = e.clientX - e.target.parentNode.offsetLeft - 8
-  const cursorPositionTime = audio.duration * (cursorPositionRelative / progressWidth)
+  const cursorPositionTime = duration * (cursorPositionRelative / progressWidth)
   const infoWidth = progressInfo.offsetWidth  
 
   if (cursorPositionRelative < 0) {
     progressInfo.innerText = generateDurationText(0)  
   } else if (cursorPositionRelative > progressWidth) {
-    progressInfo.innerText = generateDurationText(audio.duration)
+    progressInfo.innerText = generateDurationText(duration)
   } else {
     progressInfo.innerText = generateDurationText(cursorPositionTime)
   }
