@@ -163,11 +163,6 @@ i {
   z-index: 3;
 }
 
-#progress:enabled:hover ~ #progress-info {
-  visibility: visible;
-  opacity: 1;  
-}
-
 #fake-progress {
   width: calc(100% * 16px);
   height: 2px;
@@ -185,7 +180,6 @@ i {
 
 #progress-info {
   position: absolute;
-  visibility: hidden;
   opacity: 0;
   height: 20px;
   line-height: 20px;

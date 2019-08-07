@@ -175,7 +175,17 @@ progress.addEventListener('mousemove', (e) => {
     progressInfo.style.left = `${cursorPositionRelative - infoWidth / 2 + 8}px`
   }
 
-  progressInfo.style.top = `${e.target.offsetTop - 24}px`
+  progressInfo.style.top = `${e.target.offsetTop - 24}px`  
+})
+
+progress.addEventListener('mouseenter', () => {
+  if (audio.readyState === 4) {
+    progressInfo.style.opacity = 1
+  }
+})
+
+progress.addEventListener('mouseleave', () => {
+  progressInfo.style.opacity = 0
 })
 
 window.addEventListener('keydown', (e) => {
