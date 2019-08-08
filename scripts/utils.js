@@ -1,4 +1,6 @@
-const supportedFileTypes = ['mp3']
+const supportedAudioFileTypes = ['mp3', 'm4a', '3ga', 'ogg', 'flac', 'wav']
+
+const supportedVideoFileTypes = ['mp4', 'mov']
 
 const sanitizeFilePath = (path) => {
   return path.replace('#', '%23')
@@ -23,7 +25,8 @@ const generatePositionText = (seconds, duration) => {
 }
 
 module.exports = {
-  supportedFileTypes,
+  supportedAudioFileTypes,
+  supportedVideoFileTypes,
   sanitizeFilePath,
   generateDurationText,
   generatePositionText
