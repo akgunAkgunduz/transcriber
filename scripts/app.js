@@ -23,6 +23,37 @@ const songRate = document.getElementById('song-rate')
 const volume = document.getElementById('volume')
 const speed = document.getElementById('speed')
 
+audio.addEventListener('error', () => {
+  console.log(audio.error)
+  switch (audio.error.code) {
+    case 3:
+      fileDiv.querySelector('span').innerText = 'Error: Decoding error.'
+      break
+    case 4:
+      fileDiv.querySelector('span').innerText = 'Error: Media type not supported.'
+      break
+    default:
+      fileDiv.querySelector('span').innerText = 'Error: An unexpected error ocurred.'
+  }
+
+  songLength.textContent = ''
+  songPosition.textContent = ''
+
+  progressAndPosition.style.gridTemplateColumns = '0px 1fr 0px'
+  progressAndPosition.style.gridColumnGap = '0px'
+
+  audio.volume = 0.5
+  audio.playbackRate = 1
+
+  progress.disabled = true
+  toStart.disabled = true
+  rewind.disabled = true
+  playPause.disabled = true
+  forward.disabled = true
+  volume.disabled = true
+  speed.disabled = true
+})
+
 audio.addEventListener('loadedmetadata', () => {
   progress.max = audio.duration
   progress.value = 0
@@ -95,6 +126,8 @@ app.addEventListener('drop', (e) => {
   if(!audio.paused) {
     audio.pause()
   }
+
+  console.log(e.dataTransfer.files[0])
 
   transcriber.currentFilePath = e.dataTransfer.files[0].path
   audio.src = sanitizeFilePath(transcriber.currentFilePath)
