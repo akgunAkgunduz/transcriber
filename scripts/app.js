@@ -129,9 +129,30 @@ app.addEventListener('drop', (e) => {
 
   console.log(e.dataTransfer.files[0])
 
-  transcriber.currentFilePath = e.dataTransfer.files[0].path
-  audio.src = sanitizeFilePath(transcriber.currentFilePath)
-  fileDiv.querySelector('span').textContent = e.dataTransfer.files[0].name
+  if (isFileTypeSupported(e.dataTransfer.files[0].path)) {
+    transcriber.currentFilePath = e.dataTransfer.files[0].path
+    audio.src = sanitizeFilePath(transcriber.currentFilePath)
+    fileDiv.querySelector('span').textContent = e.dataTransfer.files[0].name
+  } else {
+    audio.src = ''
+
+    songPosition.textContent = ''
+    songLength.textContent = ''
+
+    progressAndPosition.style.gridTemplateColumns = '0px 1fr 0px'
+    progressAndPosition.style.gridColumnGap = '0px'
+
+    audio.volume = 0.5
+    audio.playbackRate = 1
+
+    progress.disabled = true
+    toStart.disabled = true
+    rewind.disabled = true
+    playPause.disabled = true
+    forward.disabled = true
+    volume.disabled = true
+    speed.disabled = true
+  }
 
   return false
 })
