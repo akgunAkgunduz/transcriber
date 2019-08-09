@@ -1,6 +1,16 @@
+const $ = (selector, element) => {
+  return (element || document).querySelector(selector)
+}
+
 const supportedAudioFileTypes = ['mp3', 'm4a', '3ga', 'ogg', 'flac', 'wav']
 
 const supportedVideoFileTypes = ['mp4', 'mov']
+
+const isFileTypeSupported = (filePath) => {
+  const supportedFileTypes = [ ...supportedAudioFileTypes, ...supportedVideoFileTypes ]
+
+  return supportedFileTypes.includes(filePath.split('.').pop().toLowerCase())
+}
 
 const sanitizeFilePath = (path) => {
   return path.replace('#', '%23')
@@ -25,8 +35,10 @@ const generatePositionText = (seconds, duration) => {
 }
 
 module.exports = {
+  $,
   supportedAudioFileTypes,
   supportedVideoFileTypes,
+  isFileTypeSupported,
   sanitizeFilePath,
   generateDurationText,
   generatePositionText
