@@ -1,4 +1,7 @@
-const { generateDurationText, generatePositionText } = require('../utils/helpers')
+const { remote } = require('electron')
+const { generateDurationText, generatePositionText, isFileTypeSupported } = require('../utils/helpers')
+
+var win = remote.getCurrentWindow()
 
 class Controller {
   constructor(player, view) {
@@ -86,6 +89,63 @@ class Controller {
     this.player.audio.addEventListener('ratechange', () => {
       this.view.elements.speed.value = this.player.audio.playbackRate
       this.view.elements.songRate.textContent = this.player.audio.playbackRate.toFixed(2) + 'x'
+    })
+
+    this.view.elements.app.addEventListener('dragover', () => {
+      return false
+    })
+    
+    this.view.elements.app.addEventListener('dragleave', () => {
+      return false
+    })
+    
+    this.view.elements.app.addEventListener('dragend', () => {
+      return false
+    })
+    
+    this.view.elements.app.addEventListener('drop', (e) => {
+      e.preventDefault()
+      win.focus()
+    
+      if(!this.player.audio.paused) {
+        this.player.audio.pause()
+      }
+    
+      console.log(e.dataTransfer.files[0])
+    
+      if (isFileTypeSupported(e.dataTransfer.files[0].path)) {
+        this.player.audio.src = sanitizeFilePath(e.dataTransfer.files[0].path)
+        this.view.elements.fileDiv.querySelector('span').textContent = e.dataTransfer.files[0].name
+      } else {
+        this.player.audio.src = ''
+    
+        this.view.elements.songPosition.textContent = ''
+        this.view.elements.songLength.textContent = ''
+    
+        this.view.elements.progressAndPosition.style.gridTemplateColumns = '0px 1fr 0px'
+        this.view.elements.progressAndPosition.style.gridColumnGap = '0px'
+    
+        this.player.audio.volume = 0.5
+        this.player.audio.playbackRate = 1
+    
+        this.view.elements.progress.disabled = true
+        this.view.elements.toStart.disabled = true
+        this.view.elements.rewind.disabled = true
+        this.view.elements.playPause.disabled = true
+        this.view.elements.forward.disabled = true
+        this.view.elements.volume.disabled = true
+        this.view.elements.speed.disabled = true
+      }
+    
+      return false
+    })
+    
+    document.addEventListener('dragover', (e) => {
+      e.preventDefault()
+    })
+    
+    document.addEventListener('drop', (e) => {
+      e.preventDefault()
     })
   }
 }
