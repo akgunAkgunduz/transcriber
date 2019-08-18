@@ -1,5 +1,5 @@
 const { remote } = require('electron')
-const { generateDurationText, generatePositionText, isFileTypeSupported } = require('../utils/helpers')
+const { generateDurationText, generatePositionText, isFileTypeSupported, sanitizeFilePath } = require('../utils/helpers')
 
 var win = remote.getCurrentWindow()
 
@@ -181,7 +181,47 @@ class Controller {
     this.view.elements.repeat.addEventListener('click', () => {
       this.view.elements.repeat.classList.toggle('on')
     })
-  }
+
+    this.view.elements.progress.addEventListener('input', () => {
+      this.player.audio.currentTime = progress.value
+    })
+    
+    this.view.elements.progress.addEventListener('mousemove', (e) => {
+      const duration = this.player.audio.duration || 0
+      const progressWidth = this.view.elements.fakeProgress.offsetWidth
+      const cursorPositionRelative = e.clientX - e.target.parentNode.offsetLeft - 8
+      const cursorPositionTime = duration * (cursorPositionRelative / progressWidth)
+      const infoWidth = this.view.elements.progressInfo.offsetWidth  
+    
+      if (cursorPositionRelative < 0) {
+        this.view.elements.progressInfo.innerText = generateDurationText(0)  
+      } else if (cursorPositionRelative > progressWidth) {
+        this.view.elements.progressInfo.innerText = generateDurationText(duration)
+      } else {
+        this.view.elements.progressInfo.innerText = generateDurationText(cursorPositionTime)
+      }
+    
+      if (e.clientX < e.target.parentNode.offsetLeft ) {
+        this.view.elements.progressInfo.style.left = `${-(infoWidth / 2) + 8}px`
+      } else if (e.clientX > progressWidth + 8 + e.target.parentNode.offsetLeft ) {
+        this.view.elements.progressInfo.style.left = `${progressWidth + 8 - (infoWidth / 2)}px`
+      } else {
+        this.view.elements.progressInfo.style.left = `${cursorPositionRelative - infoWidth / 2 + 8}px`
+      }
+    
+      this.view.elements.progressInfo.style.top = `${e.target.offsetTop - 24}px`  
+    })
+    
+    this.view.elements.progress.addEventListener('mouseenter', () => {
+      if (this.player.audio.readyState === 4) {
+        this.view.elements.progressInfo.style.opacity = 1
+      }
+    })
+    
+    this.view.elements.progress.addEventListener('mouseleave', () => {
+      this.view.elements.progressInfo.style.opacity = 0
+    })
+  }  
 }
 
 module.exports = Controller
