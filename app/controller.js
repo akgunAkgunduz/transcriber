@@ -147,6 +147,40 @@ class Controller {
     document.addEventListener('drop', (e) => {
       e.preventDefault()
     })
+
+    this.view.elements.volume.addEventListener('input', () => {
+      this.player.audio.volume = this.view.elements.volume.value
+    })
+    
+    this.view.elements.speed.addEventListener('input', () => {
+      this.player.audio.playbackRate = this.view.elements.speed.value
+    })
+    
+    this.view.elements.toStart.addEventListener('click', () => {
+      this.player.audio.currentTime = 0
+    })
+    
+    this.view.elements.rewind.addEventListener('click', () => {
+      this.player.audio.currentTime = this.player.audio.currentTime - 2.5
+    })
+    
+    this.view.elements.playPause.addEventListener('click', () => {
+      if (this.view.elements.audio.paused) {
+        this.player.audio.play()
+        this.view.elements.playPause.querySelector('i').innerHTML = 'pause'
+      } else {
+        this.player.audio.pause()
+        this.view.elements.playPause.querySelector('i').innerHTML = 'play_arrow'
+      }
+    })
+    
+    this.view.elements.forward.addEventListener('click', () => {
+      this.player.audio.currentTime = this.player.audio.currentTime + 2.5
+    })
+    
+    this.view.elements.repeat.addEventListener('click', () => {
+      this.view.elements.repeat.classList.toggle('on')
+    })
   }
 }
 
