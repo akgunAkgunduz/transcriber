@@ -221,6 +221,50 @@ class Controller {
     this.view.elements.progress.addEventListener('mouseleave', () => {
       this.view.elements.progressInfo.style.opacity = 0
     })
+
+    window.addEventListener('keydown', (e) => {
+      if (this.player.audio.readyState === 4) {
+        if (e.keyCode == '40') {
+          if (this.player.audio.playbackRate > 0.5) {
+            this.player.audio.playbackRate = (this.player.audio.playbackRate - 0.05).toFixed(2)
+          }
+        }
+      
+        if (e.keyCode == '38') {
+          if (this.player.audio.playbackRate < 1.5) {
+            this.player.audio.playbackRate = (this.player.audio.playbackRate + 0.05).toFixed(2)
+          }
+        }
+      
+        if (e.keyCode == '33') {
+          if (this.player.audio.volume < 1) {
+            this.player.audio.volume = (this.player.audio.volume + 0.01).toFixed(2)
+          }
+        }
+      
+        if (e.keyCode == '34') {
+          if (this.player.audio.volume > 0) {
+            this.player.audio.volume = (this.player.audio.volume - 0.01).toFixed(2)
+          }
+        }
+      
+        if (e.keyCode == '36') {
+          this.player.audio.currentTime = 0
+        }
+      
+        if (e.keyCode == '37') {
+          this.player.audio.currentTime = this.player.audio.currentTime - 2.5
+        }
+      
+        if (e.keyCode == '39') {
+          this.player.audio.currentTime = this.player.audio.currentTime + 2.5
+        }
+      
+        if (e.keyCode == '32') {
+          this.view.elements.playPause.click()
+        }
+      }
+    })
   }  
 }
 
