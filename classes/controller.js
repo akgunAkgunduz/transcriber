@@ -179,6 +179,7 @@ class Controller {
     })
     
     this.view.elements.repeat.addEventListener('click', () => {
+      this.player.audio.loop = !this.player.audio.loop
       this.view.elements.repeat.classList.toggle('on')
     })
 
