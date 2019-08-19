@@ -49,6 +49,12 @@ class Controller {
       this.view.elements.progress.max = audio.duration
       this.view.elements.progress.value = 0
 
+      if (this.store.getVolumeLevelForFile(this.player.src)) {
+        this.player.audio.volume = this.store.getVolumeLevelForFile(this.player.src)
+      } else {
+        this.player.audio.volume = 0.5
+      }
+
       if (this.player.audio.duration < 3600) {
         this.view.elements.progressAndPosition.style.gridTemplateColumns = '40px 1fr 40px'
       } else {
@@ -151,6 +157,7 @@ class Controller {
 
     this.view.elements.volume.addEventListener('input', () => {
       this.player.audio.volume = this.view.elements.volume.value
+      this.store.setVolumeLevelForFile(this.player.src, this.player.audio.volume)
     })
     
     this.view.elements.speed.addEventListener('input', () => {
@@ -242,12 +249,14 @@ class Controller {
         if (e.keyCode == '33') {
           if (this.player.audio.volume < 1) {
             this.player.audio.volume = (this.player.audio.volume + 0.01).toFixed(2)
+            this.store.setVolumeLevelForFile(this.player.src, this.player.audio.volume)
           }
         }
       
         if (e.keyCode == '34') {
           if (this.player.audio.volume > 0) {
             this.player.audio.volume = (this.player.audio.volume - 0.01).toFixed(2)
+            this.store.setVolumeLevelForFile(this.player.src, this.player.audio.volume)
           }
         }
       
