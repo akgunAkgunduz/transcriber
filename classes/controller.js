@@ -4,9 +4,10 @@ const { generateDurationText, generatePositionText, isFileTypeSupported, sanitiz
 var win = remote.getCurrentWindow()
 
 class Controller {
-  constructor(player, view) {
+  constructor(player, view, store) {
     this.player = player
     this.view = view
+    this.store = store
   }
 
   setUpEventListeners() {
@@ -181,6 +182,7 @@ class Controller {
     this.view.elements.repeat.addEventListener('click', () => {
       this.player.audio.loop = !this.player.audio.loop
       this.view.elements.repeat.classList.toggle('on')
+      this.store.repeat = this.player.audio.loop
     })
 
     this.view.elements.progress.addEventListener('input', () => {
@@ -264,6 +266,13 @@ class Controller {
         if (e.keyCode == '32') {
           this.view.elements.playPause.click()
         }
+      }
+    })
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if(this.store.repeat) {
+        this.player.audio.loop = true
+        this.view.elements.repeat.classList.add('on')
       }
     })
   }  
