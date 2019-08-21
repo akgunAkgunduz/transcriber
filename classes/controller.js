@@ -83,6 +83,14 @@ class Controller {
       this.view.elements.progress.value = this.player.audio.currentTime
       this.view.elements.songPosition.textContent = generatePositionText(this.player.audio.currentTime, this.player.audio.duration)
     })
+
+    this.player.audio.addEventListener('play', () => {      
+      this.view.elements.playPause.querySelector('i').innerHTML = 'pause'      
+    })
+
+    this.player.audio.addEventListener('pause', () => {      
+      this.view.elements.playPause.querySelector('i').innerHTML = 'play_arrow'      
+    })
     
     this.player.audio.addEventListener('ended', () => {      
       this.view.elements.playPause.querySelector('i').innerHTML = 'play_arrow'      
@@ -175,10 +183,8 @@ class Controller {
     this.view.elements.playPause.addEventListener('click', () => {
       if (this.view.elements.audio.paused) {
         this.player.audio.play()
-        this.view.elements.playPause.querySelector('i').innerHTML = 'pause'
       } else {
         this.player.audio.pause()
-        this.view.elements.playPause.querySelector('i').innerHTML = 'play_arrow'
       }
     })
     
