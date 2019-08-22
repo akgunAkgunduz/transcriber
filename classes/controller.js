@@ -83,24 +83,18 @@ class Controller {
       this.view.elements.songRate.textContent = this.player.audio.playbackRate.toFixed(2) + 'x'
     })
 
-    this.view.elements.app.addEventListener('dragover', () => {
-      return false
-    })
+    this.view.elements.app.addEventListener('dragover', () => false)
     
-    this.view.elements.app.addEventListener('dragleave', () => {
-      return false
-    })
+    this.view.elements.app.addEventListener('dragleave', () => false)
     
-    this.view.elements.app.addEventListener('dragend', () => {
-      return false
-    })
+    this.view.elements.app.addEventListener('dragend', () => false)
     
     this.view.elements.app.addEventListener('drop', (e) => {
       e.preventDefault()
       win.focus()
 
       if(!this.player.audio.paused) {
-        this.player.audio.pause()
+        this.player.pause()
       }
 
       console.log(e.dataTransfer.files[0])
@@ -125,14 +119,6 @@ class Controller {
 
       return false
     })
-    
-    document.addEventListener('dragover', (e) => {
-      e.preventDefault()
-    })
-    
-    document.addEventListener('drop', (e) => {
-      e.preventDefault()
-    })
 
     this.view.elements.volume.addEventListener('input', () => {
       this.player.audio.volume = this.view.elements.volume.value
@@ -152,11 +138,7 @@ class Controller {
     })
     
     this.view.elements.playPause.addEventListener('click', () => {
-      if (this.view.elements.audio.paused) {
-        this.player.audio.play()
-      } else {
-        this.player.audio.pause()
-      }
+      this.view.elements.audio.paused ? this.player.play() : this.player.pause()
     })
     
     this.view.elements.forward.addEventListener('click', () => {
@@ -209,6 +191,17 @@ class Controller {
       this.view.elements.progressInfo.style.opacity = 0
     })
 
+    document.addEventListener('dragover', (e) => e.preventDefault())
+    
+    document.addEventListener('drop', (e) => e.preventDefault())
+
+    document.addEventListener('DOMContentLoaded', () => {
+      if(this.store.repeat) {
+        this.player.audio.loop = true
+        this.view.elements.repeat.classList.add('on')
+      }
+    })
+
     window.addEventListener('keydown', (e) => {
       if (this.player.audio.readyState === 4) {
         if (e.keyCode == '40') {
@@ -252,13 +245,6 @@ class Controller {
         if (e.keyCode == '32') {
           this.view.elements.playPause.click()
         }
-      }
-    })
-
-    document.addEventListener('DOMContentLoaded', () => {
-      if(this.store.repeat) {
-        this.player.audio.loop = true
-        this.view.elements.repeat.classList.add('on')
       }
     })
   }  
