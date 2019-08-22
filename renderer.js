@@ -6,7 +6,7 @@ const Controller = require('./classes/controller')
 const App = require('./classes/app')
 
 const titleBarElements = require('./utils/titleBarElements')
-const audioElement = document.getElementById('audio')
+const audioElement = require('./utils/audioElement')
 const userInterfaceElements = require('./utils/userInterfaceElements')
 
 const titleBar = new TitleBar(titleBarElements)
