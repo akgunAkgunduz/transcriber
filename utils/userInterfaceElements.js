@@ -17,5 +17,7 @@ module.exports = {
   songVolume: document.getElementById('song-volume'),
   songRate: document.getElementById('song-rate'),
   volume: document.getElementById('volume'),
-  speed: document.getElementById('speed')
+  speed: document.getElementById('speed'),
+
+  controls: document.querySelectorAll('.control')
 }

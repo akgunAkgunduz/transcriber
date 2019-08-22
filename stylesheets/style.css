@@ -193,12 +193,12 @@ i {
   transition: opacity ease-out 0.25s;
 }
 
-#controls {
+#btns {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   grid-column-gap: 4px;
 }
-.control {
+.btn {
   cursor: pointer;
   height: 36px;
   color: var(--color4);
@@ -207,7 +207,7 @@ i {
   outline: none;
   transition: .25s ease-in-out;
 }
-.control:hover {
+.btn:hover {
   background-color: var(--color3);
   color: var(--color2);
 }
