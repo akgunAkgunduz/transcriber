@@ -58,8 +58,6 @@ class Controller {
       this.view.elements.songPosition.textContent = generatePositionText(0, 0)
 
       this.view.enableControls()
-
-      this.view.elements.playPause.click()
     })
 
     this.player.audio.addEventListener('timeupdate', () => {
