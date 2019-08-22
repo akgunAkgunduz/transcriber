@@ -14,23 +14,9 @@ class Controller {
     this.player.audio.addEventListener('error', () => {
       console.log(this.player.audio.error)
 
-      switch (this.player.audio.error.code) {
-        case 3:
-          this.view.elements.fileDiv.querySelector('span').innerText = 'Error: Decoding error.'
-          break
-        case 4:
-          this.view.elements.fileDiv.querySelector('span').innerText = 'Error: Media type not supported.'
-          break
-        default:
-          this.view.elements.fileDiv.querySelector('span').innerText = 'Error: An unexpected error ocurred.'
-      }
-    
-      this.view.elements.songLength.textContent = ''
-      this.view.elements.songPosition.textContent = ''
-    
-      this.view.elements.progressAndPosition.style.gridTemplateColumns = '0px 1fr 0px'
-      this.view.elements.progressAndPosition.style.gridColumnGap = '0px'
-    
+      this.view.displayErrorMessage(this.player.audio.error.code)
+      this.view.resetProgressAndPosition()
+
       this.player.audio.volume = 0.5
       this.player.audio.playbackRate = 1
 
@@ -47,12 +33,7 @@ class Controller {
         this.player.audio.volume = 0.5
       }
 
-      if (this.player.audio.duration < 3600) {
-        this.view.elements.progressAndPosition.style.gridTemplateColumns = '40px 1fr 40px'
-      } else {
-        this.view.elements.progressAndPosition.style.gridTemplateColumns = '60px 1fr 60px'
-      }
-      this.view.elements.progressAndPosition.style.gridColumnGap = '4px'
+      this.view.adaptProgressAndPositionToDuration(this.player.audio.duration)
 
       this.view.elements.songLength.textContent = generateDurationText(this.player.audio.duration)
       this.view.elements.songPosition.textContent = generatePositionText(0, 0)
@@ -103,11 +84,7 @@ class Controller {
       } else {
         this.player.audio.src = ''
 
-        this.view.elements.songPosition.textContent = ''
-        this.view.elements.songLength.textContent = ''
-
-        this.view.elements.progressAndPosition.style.gridTemplateColumns = '0px 1fr 0px'
-        this.view.elements.progressAndPosition.style.gridColumnGap = '0px'
+        this.view.resetProgressAndPosition()
 
         this.player.audio.volume = 0.5
         this.player.audio.playbackRate = 1
