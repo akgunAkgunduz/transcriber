@@ -1,3 +1,5 @@
+const { generateDurationText, generatePositionText } = require('../utils/helpers')
+
 class View {
   constructor(userInterfaceElements) {
     this.elements = userInterfaceElements
@@ -46,6 +48,40 @@ class View {
       this.elements.progressAndPosition.style.gridTemplateColumns = '60px 1fr 60px'
     }
     this.elements.progressAndPosition.style.gridColumnGap = '4px'
+  }
+
+  setProgressBarValue(newValue) {
+    this.elements.progress.value = newValue
+  }
+
+  setProgressBarMaxValue(newMax) {
+    this.elements.progress.max = newMax
+  }
+
+  setSongPosition(position, duration) {
+    this.elements.songPosition.textContent = generatePositionText(position, duration)
+  }
+
+  setSongLength(duration) {
+    this.elements.songLength.textContent = generateDurationText(duration)
+  }
+
+  updateVolume(volume) {
+    this.elements.volume.value = volume
+    this.elements.songVolume.textContent = Math.floor(volume * 100) + '%'
+  }
+
+  updateSpeed(speed) {
+    this.elements.speed.value = speed
+    this.elements.songRate.textContent = speed.toFixed(2) + 'x'
+  }
+
+  updateFileNameDisplay(text) {
+    this.elements.fileDiv.querySelector('span').textContent = text
+  }
+
+  toggleRepeat() {
+    this.elements.repeat.classList.toggle('on')
   }
 }
 

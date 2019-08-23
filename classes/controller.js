@@ -1,5 +1,5 @@
 const { remote } = require('electron')
-const { generateDurationText, generatePositionText, isFileTypeSupported, sanitizeFilePath } = require('../utils/helpers')
+const { generateDurationText, isFileTypeSupported, sanitizeFilePath } = require('../utils/helpers')
 
 var win = remote.getCurrentWindow()
 
@@ -19,24 +19,23 @@ class Controller {
     })
 
     this.player.audio.addEventListener('loadedmetadata', () => {
-      this.view.elements.progress.max = audio.duration
-      this.view.elements.progress.value = 0
+      this.view.setProgressBarMaxValue(this.player.audio.duration)
+      this.view.setProgressBarValue(0)
+      this.view.adaptProgressAndPositionToDuration(this.player.audio.duration)
+      this.view.setSongLength(this.player.audio.duration)
+      this.view.setSongPosition(0, 0)
+      this.view.enableControls()
 
       if (this.store.getVolumeLevelForFile(this.player.src)) {
         this.player.volume = this.store.getVolumeLevelForFile(this.player.src)
       } else {
         this.player.volume = 0.5
       }
-
-      this.view.adaptProgressAndPositionToDuration(this.player.audio.duration)
-      this.view.elements.songLength.textContent = generateDurationText(this.player.audio.duration)
-      this.view.elements.songPosition.textContent = generatePositionText(0, 0)
-      this.view.enableControls()
     })
 
     this.player.audio.addEventListener('timeupdate', () => {
-      this.view.elements.progress.value = this.player.audio.currentTime
-      this.view.elements.songPosition.textContent = generatePositionText(this.player.audio.currentTime, this.player.audio.duration)
+      this.view.setProgressBarValue(this.player.audio.currentTime)
+      this.view.setSongPosition(this.player.audio.currentTime, this.player.audio.duration)
     })
 
     this.player.audio.addEventListener('play', () => this.view.displayPause())
@@ -46,13 +45,11 @@ class Controller {
     this.player.audio.addEventListener('ended', () => this.view.displayPlay())
     
     this.player.audio.addEventListener('volumechange', () => {
-      this.view.elements.volume.value = this.player.volume
-      this.view.elements.songVolume.textContent = Math.floor(this.player.volume * 100) + '%'
+      this.view.updateVolume(this.player.volume)
     })
     
     this.player.audio.addEventListener('ratechange', () => {
-      this.view.elements.speed.value = this.player.speed
-      this.view.elements.songRate.textContent = this.player.speed.toFixed(2) + 'x'
+      this.view.updateSpeed(this.player.speed)
     })
 
     this.view.elements.app.addEventListener('dragover', () => false)
@@ -65,13 +62,13 @@ class Controller {
       e.preventDefault()
       win.focus()
 
-      if(!this.player.audio.paused) {
+      if(!this.player.isPaused) {
         this.player.pause()
       }
 
       if (isFileTypeSupported(e.dataTransfer.files[0].path)) {
         this.player.src = sanitizeFilePath(e.dataTransfer.files[0].path)
-        this.view.elements.fileDiv.querySelector('span').textContent = e.dataTransfer.files[0].name
+        this.view.updateFileNameDisplay(e.dataTransfer.files[0].name)
       } else {
         this.player.src = ''
         this.view.resetProgressAndPosition()
@@ -109,12 +106,12 @@ class Controller {
     
     this.view.elements.repeat.addEventListener('click', () => {
       this.player.repeat = !this.player.repeat
-      this.view.elements.repeat.classList.toggle('on')
+      this.view.toggleRepeat()
       this.store.repeat = this.player.repeat
     })
 
     this.view.elements.progress.addEventListener('input', () => {
-      this.player.audio.currentTime = progress.value
+      this.player.audio.currentTime = this.view.elements.progress.value
     })
     
     this.view.elements.progress.addEventListener('mousemove', (e) => {
@@ -160,7 +157,7 @@ class Controller {
     document.addEventListener('DOMContentLoaded', () => {
       if(this.store.repeat) {
         this.player.repeat = true
-        this.view.elements.repeat.classList.add('on')
+        this.view.toggleRepeat()
       }
     })
 
