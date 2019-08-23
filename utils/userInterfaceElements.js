@@ -1,6 +1,5 @@
 module.exports = {
   app: document.getElementById('app'),
-  audio: document.getElementById('audio'),
   fileDiv: document.getElementById('file-div'),
   toStart: document.getElementById('to-start'),
   rewind: document.getElementById('rewind'),
@@ -18,6 +17,5 @@ module.exports = {
   songRate: document.getElementById('song-rate'),
   volume: document.getElementById('volume'),
   speed: document.getElementById('speed'),
-
   controls: document.querySelectorAll('.control')
 }
