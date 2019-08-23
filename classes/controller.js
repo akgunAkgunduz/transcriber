@@ -12,14 +12,9 @@ class Controller {
 
   setUpEventListeners() {
     this.player.audio.addEventListener('error', () => {
-      console.log(this.player.audio.error)
-
       this.view.displayErrorMessage(this.player.audio.error.code)
       this.view.resetProgressAndPosition()
-
-      this.player.audio.volume = 0.5
-      this.player.audio.playbackRate = 1
-
+      this.player.resetVolumeAndSpeed()
       this.view.disableControls()
     })
 
@@ -28,16 +23,14 @@ class Controller {
       this.view.elements.progress.value = 0
 
       if (this.store.getVolumeLevelForFile(this.player.src)) {
-        this.player.audio.volume = this.store.getVolumeLevelForFile(this.player.src)
+        this.player.volume = this.store.getVolumeLevelForFile(this.player.src)
       } else {
-        this.player.audio.volume = 0.5
+        this.player.volume = 0.5
       }
 
       this.view.adaptProgressAndPositionToDuration(this.player.audio.duration)
-
       this.view.elements.songLength.textContent = generateDurationText(this.player.audio.duration)
       this.view.elements.songPosition.textContent = generatePositionText(0, 0)
-
       this.view.enableControls()
     })
 
@@ -53,13 +46,13 @@ class Controller {
     this.player.audio.addEventListener('ended', () => this.view.displayPlay())
     
     this.player.audio.addEventListener('volumechange', () => {
-      this.view.elements.volume.value = this.player.audio.volume
-      this.view.elements.songVolume.textContent = Math.floor(this.player.audio.volume * 100) + '%'
+      this.view.elements.volume.value = this.player.volume
+      this.view.elements.songVolume.textContent = Math.floor(this.player.volume * 100) + '%'
     })
     
     this.player.audio.addEventListener('ratechange', () => {
-      this.view.elements.speed.value = this.player.audio.playbackRate
-      this.view.elements.songRate.textContent = this.player.audio.playbackRate.toFixed(2) + 'x'
+      this.view.elements.speed.value = this.player.speed
+      this.view.elements.songRate.textContent = this.player.speed.toFixed(2) + 'x'
     })
 
     this.view.elements.app.addEventListener('dragover', () => false)
@@ -76,19 +69,13 @@ class Controller {
         this.player.pause()
       }
 
-      console.log(e.dataTransfer.files[0])
-
       if (isFileTypeSupported(e.dataTransfer.files[0].path)) {
-        this.player.audio.src = sanitizeFilePath(e.dataTransfer.files[0].path)
+        this.player.src = sanitizeFilePath(e.dataTransfer.files[0].path)
         this.view.elements.fileDiv.querySelector('span').textContent = e.dataTransfer.files[0].name
       } else {
-        this.player.audio.src = ''
-
+        this.player.src = ''
         this.view.resetProgressAndPosition()
-
-        this.player.audio.volume = 0.5
-        this.player.audio.playbackRate = 1
-
+        this.player.resetVolumeAndSpeed()
         this.view.disableControls()
       }
 
@@ -96,12 +83,12 @@ class Controller {
     })
 
     this.view.elements.volume.addEventListener('input', () => {
-      this.player.audio.volume = this.view.elements.volume.value
-      this.store.setVolumeLevelForFile(this.player.src, this.player.audio.volume)
+      this.player.volume = this.view.elements.volume.value
+      this.store.setVolumeLevelForFile(this.player.src, this.player.volume)
     })
     
     this.view.elements.speed.addEventListener('input', () => {
-      this.player.audio.playbackRate = this.view.elements.speed.value
+      this.player.speed = this.view.elements.speed.value
     })
     
     this.view.elements.toStart.addEventListener('click', () => {
@@ -113,7 +100,7 @@ class Controller {
     })
     
     this.view.elements.playPause.addEventListener('click', () => {
-      this.view.elements.audio.paused ? this.player.play() : this.player.pause()
+      this.player.toggle()
     })
     
     this.view.elements.forward.addEventListener('click', () => {
@@ -121,9 +108,9 @@ class Controller {
     })
     
     this.view.elements.repeat.addEventListener('click', () => {
-      this.player.audio.loop = !this.player.audio.loop
+      this.player.repeat = !this.player.repeat
       this.view.elements.repeat.classList.toggle('on')
-      this.store.repeat = this.player.audio.loop
+      this.store.repeat = this.player.repeat
     })
 
     this.view.elements.progress.addEventListener('input', () => {
@@ -172,7 +159,7 @@ class Controller {
 
     document.addEventListener('DOMContentLoaded', () => {
       if(this.store.repeat) {
-        this.player.audio.loop = true
+        this.player.repeat = true
         this.view.elements.repeat.classList.add('on')
       }
     })
@@ -180,28 +167,28 @@ class Controller {
     window.addEventListener('keydown', (e) => {
       if (this.player.audio.readyState === 4) {
         if (e.keyCode == '40') {
-          if (this.player.audio.playbackRate > 0.5) {
-            this.player.audio.playbackRate = (this.player.audio.playbackRate - 0.05).toFixed(2)
+          if (this.player.speed > 0.5) {
+            this.player.speed = (this.player.speed - 0.05).toFixed(2)
           }
         }
       
         if (e.keyCode == '38') {
-          if (this.player.audio.playbackRate < 1.5) {
-            this.player.audio.playbackRate = (this.player.audio.playbackRate + 0.05).toFixed(2)
+          if (this.player.speed < 1.5) {
+            this.player.speed = (this.player.speed + 0.05).toFixed(2)
           }
         }
       
         if (e.keyCode == '33') {
-          if (this.player.audio.volume < 1) {
-            this.player.audio.volume = (this.player.audio.volume + 0.01).toFixed(2)
-            this.store.setVolumeLevelForFile(this.player.src, this.player.audio.volume)
+          if (this.player.volume < 1) {
+            this.player.volume = (this.player.volume + 0.01).toFixed(2)
+            this.store.setVolumeLevelForFile(this.player.src, this.player.volume)
           }
         }
       
         if (e.keyCode == '34') {
-          if (this.player.audio.volume > 0) {
-            this.player.audio.volume = (this.player.audio.volume - 0.01).toFixed(2)
-            this.store.setVolumeLevelForFile(this.player.src, this.player.audio.volume)
+          if (this.player.volume > 0) {
+            this.player.volume = (this.player.volume - 0.01).toFixed(2)
+            this.store.setVolumeLevelForFile(this.player.src, this.player.volume)
           }
         }
       
@@ -218,7 +205,7 @@ class Controller {
         }
       
         if (e.keyCode == '32') {
-          this.view.elements.playPause.click()
+          this.player.toggle()
         }
       }
     })
