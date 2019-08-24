@@ -13,6 +13,22 @@ class Player {
     this.audio.src = newSrc
   }
 
+  get position() {
+    return this.audio.currentTime
+  }
+
+  set position(newPosition) {
+    this.audio.currentTime = newPosition
+  }
+
+  get duration() {
+    return this.audio.duration
+  }
+
+  set position(newDuration) {
+    this.audio.duration = newDuration
+  }
+
   get volume() {
     return this.audio.volume
   }
@@ -35,6 +51,14 @@ class Player {
 
   set repeat(newValue) {
     this.audio.loop = newValue
+  }
+
+  get error() {
+    return this.audio.error.code
+  }
+
+  get isReady() {
+    return this.audio.readyState === 4
   }
 
   get isPaused() {
