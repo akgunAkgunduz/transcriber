@@ -1,7 +1,7 @@
 const { remote } = require('electron')
-const { generateDurationText, isFileTypeSupported, sanitizeFilePath } = require('../utils/helpers')
+const { isFileTypeSupported, sanitizeFilePath } = require('../utils/helpers')
 
-var win = remote.getCurrentWindow()
+const win = remote.getCurrentWindow()
 
 class Controller {
   constructor(player, view, store) {
@@ -44,13 +44,9 @@ class Controller {
     
     this.player.audio.addEventListener('ended', () => this.view.displayPlay())
     
-    this.player.audio.addEventListener('volumechange', () => {
-      this.view.updateVolume(this.player.volume)
-    })
+    this.player.audio.addEventListener('volumechange', () => this.view.updateVolume(this.player.volume))
     
-    this.player.audio.addEventListener('ratechange', () => {
-      this.view.updateSpeed(this.player.speed)
-    })
+    this.player.audio.addEventListener('ratechange', () => this.view.updateSpeed(this.player.speed))
 
     this.view.elements.app.addEventListener('dragover', () => false)
     
@@ -84,25 +80,15 @@ class Controller {
       this.store.setVolumeLevelForFile(this.player.src, this.player.volume)
     })
     
-    this.view.elements.speed.addEventListener('input', () => {
-      this.player.speed = this.view.elements.speed.value
-    })
+    this.view.elements.speed.addEventListener('input', () => this.player.speed = this.view.elements.speed.value)
     
-    this.view.elements.toStart.addEventListener('click', () => {
-      this.player.position = 0
-    })
+    this.view.elements.toStart.addEventListener('click', () => this.player.position = 0)
     
-    this.view.elements.rewind.addEventListener('click', () => {
-      this.player.position -= 2.5
-    })
+    this.view.elements.rewind.addEventListener('click', () => this.player.position -= 2.5)
     
-    this.view.elements.playPause.addEventListener('click', () => {
-      this.player.toggle()
-    })
+    this.view.elements.playPause.addEventListener('click', () => this.player.toggle())
     
-    this.view.elements.forward.addEventListener('click', () => {
-      this.player.position += 2.5
-    })
+    this.view.elements.forward.addEventListener('click', () => this.player.position += 2.5)
     
     this.view.elements.repeat.addEventListener('click', () => {
       this.player.repeat = !this.player.repeat
@@ -110,45 +96,13 @@ class Controller {
       this.store.repeat = this.player.repeat
     })
 
-    this.view.elements.progress.addEventListener('input', () => {
-      this.player.position = this.view.elements.progress.value
-    })
-    
-    this.view.elements.progress.addEventListener('mousemove', (e) => {
-      const duration = this.player.audio.duration || 0
-      const progressWidth = this.view.elements.fakeProgress.offsetWidth
-      const cursorPositionRelative = e.clientX - e.target.parentNode.offsetLeft - 8
-      const cursorPositionTime = duration * (cursorPositionRelative / progressWidth)
-      const infoWidth = this.view.elements.progressInfo.offsetWidth  
-    
-      if (cursorPositionRelative < 0) {
-        this.view.elements.progressInfo.innerText = generateDurationText(0)  
-      } else if (cursorPositionRelative > progressWidth) {
-        this.view.elements.progressInfo.innerText = generateDurationText(duration)
-      } else {
-        this.view.elements.progressInfo.innerText = generateDurationText(cursorPositionTime)
-      }
-    
-      if (e.clientX < e.target.parentNode.offsetLeft ) {
-        this.view.elements.progressInfo.style.left = `${-(infoWidth / 2) + 8}px`
-      } else if (e.clientX > progressWidth + 8 + e.target.parentNode.offsetLeft ) {
-        this.view.elements.progressInfo.style.left = `${progressWidth + 8 - (infoWidth / 2)}px`
-      } else {
-        this.view.elements.progressInfo.style.left = `${cursorPositionRelative - infoWidth / 2 + 8}px`
-      }
-    
-      this.view.elements.progressInfo.style.top = `${e.target.offsetTop - 24}px`  
-    })
-    
-    this.view.elements.progress.addEventListener('mouseenter', () => {
-      if (this.player.isReady) {
-        this.view.elements.progressInfo.style.opacity = 1
-      }
-    })
-    
-    this.view.elements.progress.addEventListener('mouseleave', () => {
-      this.view.elements.progressInfo.style.opacity = 0
-    })
+    this.view.elements.progress.addEventListener('input', () => this.player.position = this.view.elements.progress.value)
+
+    this.view.elements.progress.addEventListener('mouseenter', () => this.player.isReady ? this.view.showProgressInfo() : null)
+
+    this.view.elements.progress.addEventListener('mouseleave', () => this.view.hideProgressInfo())
+
+    this.view.elements.progress.addEventListener('mousemove', (e) => this.view.setUpProgressInfo(e, this.player.duration))
 
     document.addEventListener('dragover', (e) => e.preventDefault())
     
@@ -162,7 +116,7 @@ class Controller {
     })
 
     window.addEventListener('keydown', (e) => {
-      if (this.player.audio.readyState === 4) {
+      if (this.player.isReady) {
         if (e.keyCode == '40') {
           if (this.player.speed > 0.5) {
             this.player.speed = (this.player.speed - 0.05).toFixed(2)

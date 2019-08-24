@@ -83,6 +83,40 @@ class View {
   toggleRepeat() {
     this.elements.repeat.classList.toggle('on')
   }
+
+  showProgressInfo() {
+    this.elements.progressInfo.style.opacity = 1
+  }
+
+  hideProgressInfo() {
+    this.elements.progressInfo.style.opacity = 0
+  }
+
+  setUpProgressInfo(event, length) {
+    const duration = length || 0
+    const progressWidth = this.elements.fakeProgress.offsetWidth
+    const cursorPositionRelative = event.clientX - event.target.parentNode.offsetLeft - 8
+    const cursorPositionTime = duration * (cursorPositionRelative / progressWidth)
+    const infoWidth = this.elements.progressInfo.offsetWidth  
+  
+    if (cursorPositionRelative < 0) {
+      this.elements.progressInfo.innerText = generateDurationText(0)  
+    } else if (cursorPositionRelative > progressWidth) {
+      this.elements.progressInfo.innerText = generateDurationText(duration)
+    } else {
+      this.elements.progressInfo.innerText = generateDurationText(cursorPositionTime)
+    }
+  
+    if (event.clientX < event.target.parentNode.offsetLeft ) {
+      this.elements.progressInfo.style.left = `${-(infoWidth / 2) + 8}px`
+    } else if (event.clientX > progressWidth + 8 + event.target.parentNode.offsetLeft ) {
+      this.elements.progressInfo.style.left = `${progressWidth + 8 - (infoWidth / 2)}px`
+    } else {
+      this.elements.progressInfo.style.left = `${cursorPositionRelative - infoWidth / 2 + 8}px`
+    }
+  
+    this.elements.progressInfo.style.top = `${event.target.offsetTop - 24}px`
+  }
 }
 
 module.exports = View
