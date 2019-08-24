@@ -1,7 +1,7 @@
 const { remote } = require('electron')
-const { color1, color3, color4 } = require('../utils/stylingVariables')
+const { color1, color2, color3, color4 } = require('../utils/stylingVariables')
 
-var win = remote.getCurrentWindow()
+const win = remote.getCurrentWindow()
 
 class TitleBar {
   constructor(elements) {
@@ -49,12 +49,14 @@ class TitleBar {
     })
 
     win.on('focus', () => {
+      this.elements.container.style.backgroundColor = color2
       this.elements.appName.style.color = 'white'
-      this.elements.minimize.style.color = '#2B2B2B'
-      this.elements.close.style.color = '#2B2B2B'
+      this.elements.minimize.style.color = color1
+      this.elements.close.style.color = color1
     })
-
+    
     win.on('blur', () => {
+      this.elements.container.style.backgroundColor = color1
       this.elements.appName.style.color = 'gray'
       this.elements.minimize.style.color = 'gray'
       this.elements.close.style.color = 'gray'

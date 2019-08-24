@@ -59,6 +59,12 @@ i {
   height: 30px;
   background-color: var(--color2);
 }
+
+#app-bar-container {
+  height: 100%;
+  transition: background-color .2s ease-in-out;
+}
+
 #app-bar img {
   height: 16px;
   margin-left: 1rem;
@@ -70,7 +76,7 @@ i {
   top: 3px;
   width: 200px;
   left: 40px;
-  transition: all .25s ease-in-out;
+  transition: all .2s ease-in-out;
 }
 
 .win-btn {
@@ -83,7 +89,7 @@ i {
   color: var(--color1);
   text-align: center;
   cursor: pointer;
-  transition: all .25s ease-in-out;
+  transition: all .2s ease-in-out;
 }
 
 #close {
@@ -214,8 +220,6 @@ i {
 
 #repeat.on {
   color: yellowgreen;
-  /* color: #e6ac00; */
-  /* text-shadow: 0 0 2px black, 0 0 8px #fdfd96; */
   text-shadow: 0 0 1px black, 0 0 8px yellowgreen;
 }
 
