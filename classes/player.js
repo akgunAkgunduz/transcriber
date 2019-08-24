@@ -25,7 +25,7 @@ class Player {
     return this.audio.duration
   }
 
-  set position(newDuration) {
+  set duration(newDuration) {
     this.audio.duration = newDuration
   }
 

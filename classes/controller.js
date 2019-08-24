@@ -12,17 +12,17 @@ class Controller {
 
   setUpEventListeners() {
     this.player.audio.addEventListener('error', () => {
-      this.view.displayErrorMessage(this.player.audio.error.code)
+      this.view.displayErrorMessage(this.player.error)
       this.view.resetProgressAndPosition()
       this.player.resetVolumeAndSpeed()
       this.view.disableControls()
     })
 
     this.player.audio.addEventListener('loadedmetadata', () => {
-      this.view.setProgressBarMaxValue(this.player.audio.duration)
+      this.view.setProgressBarMaxValue(this.player.duration)
       this.view.setProgressBarValue(0)
-      this.view.adaptProgressAndPositionToDuration(this.player.audio.duration)
-      this.view.setSongLength(this.player.audio.duration)
+      this.view.adaptProgressAndPositionToDuration(this.player.duration)
+      this.view.setSongLength(this.player.duration)
       this.view.setSongPosition(0, 0)
       this.view.enableControls()
 
@@ -34,8 +34,8 @@ class Controller {
     })
 
     this.player.audio.addEventListener('timeupdate', () => {
-      this.view.setProgressBarValue(this.player.audio.currentTime)
-      this.view.setSongPosition(this.player.audio.currentTime, this.player.audio.duration)
+      this.view.setProgressBarValue(this.player.position)
+      this.view.setSongPosition(this.player.position, this.player.duration)
     })
 
     this.player.audio.addEventListener('play', () => this.view.displayPause())
@@ -89,11 +89,11 @@ class Controller {
     })
     
     this.view.elements.toStart.addEventListener('click', () => {
-      this.player.audio.currentTime = 0
+      this.player.position = 0
     })
     
     this.view.elements.rewind.addEventListener('click', () => {
-      this.player.audio.currentTime = this.player.audio.currentTime - 2.5
+      this.player.position -= 2.5
     })
     
     this.view.elements.playPause.addEventListener('click', () => {
@@ -101,7 +101,7 @@ class Controller {
     })
     
     this.view.elements.forward.addEventListener('click', () => {
-      this.player.audio.currentTime = this.player.audio.currentTime + 2.5
+      this.player.position += 2.5
     })
     
     this.view.elements.repeat.addEventListener('click', () => {
@@ -111,7 +111,7 @@ class Controller {
     })
 
     this.view.elements.progress.addEventListener('input', () => {
-      this.player.audio.currentTime = this.view.elements.progress.value
+      this.player.position = this.view.elements.progress.value
     })
     
     this.view.elements.progress.addEventListener('mousemove', (e) => {
@@ -141,7 +141,7 @@ class Controller {
     })
     
     this.view.elements.progress.addEventListener('mouseenter', () => {
-      if (this.player.audio.readyState === 4) {
+      if (this.player.isReady) {
         this.view.elements.progressInfo.style.opacity = 1
       }
     })
@@ -190,15 +190,15 @@ class Controller {
         }
       
         if (e.keyCode == '36') {
-          this.player.audio.currentTime = 0
+          this.player.position = 0
         }
       
         if (e.keyCode == '37') {
-          this.player.audio.currentTime = this.player.audio.currentTime - 2.5
+          this.player.position -= 2.5
         }
-      
+        
         if (e.keyCode == '39') {
-          this.player.audio.currentTime = this.player.audio.currentTime + 2.5
+          this.player.position += 2.5
         }
       
         if (e.keyCode == '32') {
