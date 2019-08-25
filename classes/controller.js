@@ -1,4 +1,5 @@
-const { remote } = require('electron')
+const path = require('path')
+const { remote, ipcRenderer } = require('electron')
 const { isFileTypeSupported, sanitizeFilePath } = require('../utils/helpers')
 
 const win = remote.getCurrentWindow()
@@ -81,15 +82,17 @@ class Controller {
     })
     
     this.view.elements.speed.addEventListener('input', () => this.player.speed = this.view.elements.speed.value)
-    
+
+    this.view.elements.openFile.addEventListener('click', () => ipcRenderer.send('open-file-dialog'))
+
     this.view.elements.toStart.addEventListener('click', () => this.player.position = 0)
-    
+
     this.view.elements.rewind.addEventListener('click', () => this.player.position -= 2.5)
-    
+
     this.view.elements.playPause.addEventListener('click', () => this.player.toggle())
-    
+
     this.view.elements.forward.addEventListener('click', () => this.player.position += 2.5)
-    
+
     this.view.elements.repeat.addEventListener('click', () => {
       this.player.repeat = !this.player.repeat
       this.view.toggleRepeat()
@@ -103,6 +106,13 @@ class Controller {
     this.view.elements.progress.addEventListener('mouseleave', () => this.view.hideProgressInfo())
 
     this.view.elements.progress.addEventListener('mousemove', (e) => this.view.setUpProgressInfo(e, this.player.duration))
+
+    ipcRenderer.on('selected-file', (e, filePath) => {
+      if (filePath) {
+        this.player.src = sanitizeFilePath(filePath)
+        this.view.updateFileNameDisplay(path.basename(filePath))
+      }
+    })
 
     document.addEventListener('dragover', (e) => e.preventDefault())
     

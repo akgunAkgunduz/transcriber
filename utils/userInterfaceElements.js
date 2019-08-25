@@ -1,6 +1,7 @@
 module.exports = {
   app: document.getElementById('app'),
   fileDiv: document.getElementById('file-div'),
+  openFile: document.getElementById('open-file'),
   toStart: document.getElementById('to-start'),
   rewind: document.getElementById('rewind'),
   playPause: document.getElementById('play-pause'),
